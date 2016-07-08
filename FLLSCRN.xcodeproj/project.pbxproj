@@ -1,0 +1,773 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2FC9E394BB61195329B74570 /* Pods_FLLSCRNUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5956E85AE6E5A587316D9DF /* Pods_FLLSCRNUITests.framework */; };
+		7B0A38C21D301B0900FD10B8 /* FLSCNInstagramViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B0A38C11D301B0900FD10B8 /* FLSCNInstagramViewController.m */; };
+		7B7DCB5A1D2D8C6D00296A68 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B7DCB591D2D8C6D00296A68 /* main.m */; };
+		7B7DCB5D1D2D8C6D00296A68 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B7DCB5C1D2D8C6D00296A68 /* AppDelegate.m */; };
+		7B7DCB601D2D8C6D00296A68 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B7DCB5F1D2D8C6D00296A68 /* ViewController.m */; };
+		7B7DCB631D2D8C6D00296A68 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7B7DCB611D2D8C6D00296A68 /* Main.storyboard */; };
+		7B7DCB651D2D8C6D00296A68 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7B7DCB641D2D8C6D00296A68 /* Assets.xcassets */; };
+		7B7DCB681D2D8C6D00296A68 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7B7DCB661D2D8C6D00296A68 /* LaunchScreen.storyboard */; };
+		7B7DCB731D2D8C6D00296A68 /* FLLSCRNTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B7DCB721D2D8C6D00296A68 /* FLLSCRNTests.m */; };
+		7B7DCB7E1D2D8C6D00296A68 /* FLLSCRNUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B7DCB7D1D2D8C6D00296A68 /* FLLSCRNUITests.m */; };
+		7B7DCB901D2E19FF00296A68 /* FLSCNImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7DCB8F1D2E19FF00296A68 /* FLSCNImagePicker.swift */; };
+		7B7DCB951D2E25A400296A68 /* FSAlbumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7DCB911D2E25A400296A68 /* FSAlbumView.swift */; };
+		7B7DCB961D2E25A400296A68 /* FSAlbumView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B7DCB921D2E25A400296A68 /* FSAlbumView.xib */; };
+		7B7DCB971D2E25A400296A68 /* FSAlbumViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7DCB931D2E25A400296A68 /* FSAlbumViewCell.swift */; };
+		7B7DCB981D2E25A400296A68 /* FSAlbumViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7B7DCB941D2E25A400296A68 /* FSAlbumViewCell.xib */; };
+		7B7DCB9D1D2E266A00296A68 /* FSImageCropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7DCB9C1D2E266A00296A68 /* FSImageCropView.swift */; };
+		7BD4C5D91D2EA51800DE927A /* FLSCNImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BD4C5D81D2EA51800DE927A /* FLSCNImageViewController.m */; };
+		7BD4C5DC1D2EA56700DE927A /* FLSCNImagePanScrollbarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BD4C5DB1D2EA56700DE927A /* FLSCNImagePanScrollbarView.m */; };
+		7BD4C5DE1D2EB57A00DE927A /* DismissAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BD4C5DD1D2EB57A00DE927A /* DismissAnimator.swift */; };
+		7BD4C5E01D2EB65800DE927A /* Interactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BD4C5DF1D2EB65800DE927A /* Interactor.swift */; };
+		8505D4AC2E134B6BE59D4CB1 /* Pods_FLLSCRN.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8936CCBA89B562944342C983 /* Pods_FLLSCRN.framework */; };
+		A27B012108AFB6289A5A882E /* Pods_FLLSCRNTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FD935590236B1A95F890B6A /* Pods_FLLSCRNTests.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		7B7DCB6F1D2D8C6D00296A68 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7B7DCB4D1D2D8C6D00296A68 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7B7DCB541D2D8C6D00296A68;
+			remoteInfo = FLLSCRN;
+		};
+		7B7DCB7A1D2D8C6D00296A68 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7B7DCB4D1D2D8C6D00296A68 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7B7DCB541D2D8C6D00296A68;
+			remoteInfo = FLLSCRN;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		2FD935590236B1A95F890B6A /* Pods_FLLSCRNTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FLLSCRNTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7B0A38C01D301B0900FD10B8 /* FLSCNInstagramViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLSCNInstagramViewController.h; sourceTree = "<group>"; };
+		7B0A38C11D301B0900FD10B8 /* FLSCNInstagramViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLSCNInstagramViewController.m; sourceTree = "<group>"; };
+		7B7DCB551D2D8C6D00296A68 /* FLLSCRN.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FLLSCRN.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7B7DCB591D2D8C6D00296A68 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		7B7DCB5B1D2D8C6D00296A68 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		7B7DCB5C1D2D8C6D00296A68 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		7B7DCB5E1D2D8C6D00296A68 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		7B7DCB5F1D2D8C6D00296A68 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		7B7DCB621D2D8C6D00296A68 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		7B7DCB641D2D8C6D00296A68 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		7B7DCB671D2D8C6D00296A68 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		7B7DCB691D2D8C6D00296A68 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7B7DCB6E1D2D8C6D00296A68 /* FLLSCRNTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FLLSCRNTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7B7DCB721D2D8C6D00296A68 /* FLLSCRNTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FLLSCRNTests.m; sourceTree = "<group>"; };
+		7B7DCB741D2D8C6D00296A68 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7B7DCB791D2D8C6D00296A68 /* FLLSCRNUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FLLSCRNUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7B7DCB7D1D2D8C6D00296A68 /* FLLSCRNUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FLLSCRNUITests.m; sourceTree = "<group>"; };
+		7B7DCB7F1D2D8C6D00296A68 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7B7DCB8E1D2E19FE00296A68 /* FLLSCRN-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FLLSCRN-Bridging-Header.h"; sourceTree = "<group>"; };
+		7B7DCB8F1D2E19FF00296A68 /* FLSCNImagePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FLSCNImagePicker.swift; sourceTree = "<group>"; };
+		7B7DCB911D2E25A400296A68 /* FSAlbumView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSAlbumView.swift; sourceTree = "<group>"; };
+		7B7DCB921D2E25A400296A68 /* FSAlbumView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FSAlbumView.xib; sourceTree = "<group>"; };
+		7B7DCB931D2E25A400296A68 /* FSAlbumViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSAlbumViewCell.swift; sourceTree = "<group>"; };
+		7B7DCB941D2E25A400296A68 /* FSAlbumViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FSAlbumViewCell.xib; sourceTree = "<group>"; };
+		7B7DCB9C1D2E266A00296A68 /* FSImageCropView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSImageCropView.swift; sourceTree = "<group>"; };
+		7BD4C5D71D2EA51800DE927A /* FLSCNImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLSCNImageViewController.h; sourceTree = "<group>"; };
+		7BD4C5D81D2EA51800DE927A /* FLSCNImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLSCNImageViewController.m; sourceTree = "<group>"; };
+		7BD4C5DA1D2EA56700DE927A /* FLSCNImagePanScrollbarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLSCNImagePanScrollbarView.h; sourceTree = "<group>"; };
+		7BD4C5DB1D2EA56700DE927A /* FLSCNImagePanScrollbarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLSCNImagePanScrollbarView.m; sourceTree = "<group>"; };
+		7BD4C5DD1D2EB57A00DE927A /* DismissAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DismissAnimator.swift; sourceTree = "<group>"; };
+		7BD4C5DF1D2EB65800DE927A /* Interactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Interactor.swift; sourceTree = "<group>"; };
+		8936CCBA89B562944342C983 /* Pods_FLLSCRN.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FLLSCRN.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A8F27EFC04139BB4940D98E2 /* Pods-FLLSCRNUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FLLSCRNUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-FLLSCRNUITests/Pods-FLLSCRNUITests.release.xcconfig"; sourceTree = "<group>"; };
+		C0EFB5BDC2D1B02E9C60BA20 /* Pods-FLLSCRNUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FLLSCRNUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FLLSCRNUITests/Pods-FLLSCRNUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		C29FF40425D502BF6477EFE7 /* Pods-FLLSCRN.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FLLSCRN.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FLLSCRN/Pods-FLLSCRN.debug.xcconfig"; sourceTree = "<group>"; };
+		C5956E85AE6E5A587316D9DF /* Pods_FLLSCRNUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FLLSCRNUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DE471C12A6BD285793519636 /* Pods-FLLSCRN.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FLLSCRN.release.xcconfig"; path = "Pods/Target Support Files/Pods-FLLSCRN/Pods-FLLSCRN.release.xcconfig"; sourceTree = "<group>"; };
+		F11D18A692FF3ACC2E4C2F44 /* Pods-FLLSCRNTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FLLSCRNTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FLLSCRNTests/Pods-FLLSCRNTests.debug.xcconfig"; sourceTree = "<group>"; };
+		FF24609EC304A8DEDCCE0CCD /* Pods-FLLSCRNTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FLLSCRNTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-FLLSCRNTests/Pods-FLLSCRNTests.release.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		7B7DCB521D2D8C6D00296A68 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8505D4AC2E134B6BE59D4CB1 /* Pods_FLLSCRN.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7B7DCB6B1D2D8C6D00296A68 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A27B012108AFB6289A5A882E /* Pods_FLLSCRNTests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7B7DCB761D2D8C6D00296A68 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2FC9E394BB61195329B74570 /* Pods_FLLSCRNUITests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2DB1337F89C912227D2C7E0C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8936CCBA89B562944342C983 /* Pods_FLLSCRN.framework */,
+				2FD935590236B1A95F890B6A /* Pods_FLLSCRNTests.framework */,
+				C5956E85AE6E5A587316D9DF /* Pods_FLLSCRNUITests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		7B7DCB4C1D2D8C6D00296A68 = {
+			isa = PBXGroup;
+			children = (
+				7B7DCB571D2D8C6D00296A68 /* FLLSCRN */,
+				7B7DCB711D2D8C6D00296A68 /* FLLSCRNTests */,
+				7B7DCB7C1D2D8C6D00296A68 /* FLLSCRNUITests */,
+				7B7DCB561D2D8C6D00296A68 /* Products */,
+				BFEE9DF09B4FA077F4435C81 /* Pods */,
+				2DB1337F89C912227D2C7E0C /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		7B7DCB561D2D8C6D00296A68 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7B7DCB551D2D8C6D00296A68 /* FLLSCRN.app */,
+				7B7DCB6E1D2D8C6D00296A68 /* FLLSCRNTests.xctest */,
+				7B7DCB791D2D8C6D00296A68 /* FLLSCRNUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		7B7DCB571D2D8C6D00296A68 /* FLLSCRN */ = {
+			isa = PBXGroup;
+			children = (
+				7B7DCB611D2D8C6D00296A68 /* Main.storyboard */,
+				7B7DCB5B1D2D8C6D00296A68 /* AppDelegate.h */,
+				7B7DCB5C1D2D8C6D00296A68 /* AppDelegate.m */,
+				7B7DCB5E1D2D8C6D00296A68 /* ViewController.h */,
+				7B7DCB5F1D2D8C6D00296A68 /* ViewController.m */,
+				7B0A38C01D301B0900FD10B8 /* FLSCNInstagramViewController.h */,
+				7B0A38C11D301B0900FD10B8 /* FLSCNInstagramViewController.m */,
+				7B7DCB8F1D2E19FF00296A68 /* FLSCNImagePicker.swift */,
+				7BD4C5DF1D2EB65800DE927A /* Interactor.swift */,
+				7BD4C5DD1D2EB57A00DE927A /* DismissAnimator.swift */,
+				7BD4C5D71D2EA51800DE927A /* FLSCNImageViewController.h */,
+				7BD4C5D81D2EA51800DE927A /* FLSCNImageViewController.m */,
+				7BD4C5DA1D2EA56700DE927A /* FLSCNImagePanScrollbarView.h */,
+				7BD4C5DB1D2EA56700DE927A /* FLSCNImagePanScrollbarView.m */,
+				7B7DCB641D2D8C6D00296A68 /* Assets.xcassets */,
+				7B7DCB8E1D2E19FE00296A68 /* FLLSCRN-Bridging-Header.h */,
+				7B7DCB661D2D8C6D00296A68 /* LaunchScreen.storyboard */,
+				7B7DCB691D2D8C6D00296A68 /* Info.plist */,
+				7B7DCB9B1D2E25D000296A68 /* Fusuma Album View */,
+				7B7DCB581D2D8C6D00296A68 /* Supporting Files */,
+			);
+			path = FLLSCRN;
+			sourceTree = "<group>";
+		};
+		7B7DCB581D2D8C6D00296A68 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				7B7DCB591D2D8C6D00296A68 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		7B7DCB711D2D8C6D00296A68 /* FLLSCRNTests */ = {
+			isa = PBXGroup;
+			children = (
+				7B7DCB721D2D8C6D00296A68 /* FLLSCRNTests.m */,
+				7B7DCB741D2D8C6D00296A68 /* Info.plist */,
+			);
+			path = FLLSCRNTests;
+			sourceTree = "<group>";
+		};
+		7B7DCB7C1D2D8C6D00296A68 /* FLLSCRNUITests */ = {
+			isa = PBXGroup;
+			children = (
+				7B7DCB7D1D2D8C6D00296A68 /* FLLSCRNUITests.m */,
+				7B7DCB7F1D2D8C6D00296A68 /* Info.plist */,
+			);
+			path = FLLSCRNUITests;
+			sourceTree = "<group>";
+		};
+		7B7DCB9B1D2E25D000296A68 /* Fusuma Album View */ = {
+			isa = PBXGroup;
+			children = (
+				7B7DCB9C1D2E266A00296A68 /* FSImageCropView.swift */,
+				7B7DCB911D2E25A400296A68 /* FSAlbumView.swift */,
+				7B7DCB921D2E25A400296A68 /* FSAlbumView.xib */,
+				7B7DCB931D2E25A400296A68 /* FSAlbumViewCell.swift */,
+				7B7DCB941D2E25A400296A68 /* FSAlbumViewCell.xib */,
+			);
+			name = "Fusuma Album View";
+			sourceTree = "<group>";
+		};
+		BFEE9DF09B4FA077F4435C81 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				C29FF40425D502BF6477EFE7 /* Pods-FLLSCRN.debug.xcconfig */,
+				DE471C12A6BD285793519636 /* Pods-FLLSCRN.release.xcconfig */,
+				F11D18A692FF3ACC2E4C2F44 /* Pods-FLLSCRNTests.debug.xcconfig */,
+				FF24609EC304A8DEDCCE0CCD /* Pods-FLLSCRNTests.release.xcconfig */,
+				C0EFB5BDC2D1B02E9C60BA20 /* Pods-FLLSCRNUITests.debug.xcconfig */,
+				A8F27EFC04139BB4940D98E2 /* Pods-FLLSCRNUITests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		7B7DCB541D2D8C6D00296A68 /* FLLSCRN */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7B7DCB821D2D8C6D00296A68 /* Build configuration list for PBXNativeTarget "FLLSCRN" */;
+			buildPhases = (
+				7F04F45E66B8E6D56E6E1F63 /* [CP] Check Pods Manifest.lock */,
+				7B7DCB511D2D8C6D00296A68 /* Sources */,
+				7B7DCB521D2D8C6D00296A68 /* Frameworks */,
+				7B7DCB531D2D8C6D00296A68 /* Resources */,
+				B4A48A1DD2B492E5F0DAECA1 /* [CP] Embed Pods Frameworks */,
+				066FBB3A196BF0CD9F40C051 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FLLSCRN;
+			productName = FLLSCRN;
+			productReference = 7B7DCB551D2D8C6D00296A68 /* FLLSCRN.app */;
+			productType = "com.apple.product-type.application";
+		};
+		7B7DCB6D1D2D8C6D00296A68 /* FLLSCRNTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7B7DCB851D2D8C6D00296A68 /* Build configuration list for PBXNativeTarget "FLLSCRNTests" */;
+			buildPhases = (
+				3C5BA6597153A9C305651AEA /* [CP] Check Pods Manifest.lock */,
+				7B7DCB6A1D2D8C6D00296A68 /* Sources */,
+				7B7DCB6B1D2D8C6D00296A68 /* Frameworks */,
+				7B7DCB6C1D2D8C6D00296A68 /* Resources */,
+				6EB49C4B7244296FE5C88439 /* [CP] Embed Pods Frameworks */,
+				65C9AD8BF6940204DE01CF3A /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				7B7DCB701D2D8C6D00296A68 /* PBXTargetDependency */,
+			);
+			name = FLLSCRNTests;
+			productName = FLLSCRNTests;
+			productReference = 7B7DCB6E1D2D8C6D00296A68 /* FLLSCRNTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		7B7DCB781D2D8C6D00296A68 /* FLLSCRNUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7B7DCB881D2D8C6D00296A68 /* Build configuration list for PBXNativeTarget "FLLSCRNUITests" */;
+			buildPhases = (
+				B7D238540B171A08332E9E64 /* [CP] Check Pods Manifest.lock */,
+				7B7DCB751D2D8C6D00296A68 /* Sources */,
+				7B7DCB761D2D8C6D00296A68 /* Frameworks */,
+				7B7DCB771D2D8C6D00296A68 /* Resources */,
+				02910F973D0C3E64A7C29BEF /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				7B7DCB7B1D2D8C6D00296A68 /* PBXTargetDependency */,
+			);
+			name = FLLSCRNUITests;
+			productName = FLLSCRNUITests;
+			productReference = 7B7DCB791D2D8C6D00296A68 /* FLLSCRNUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		7B7DCB4D1D2D8C6D00296A68 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0730;
+				ORGANIZATIONNAME = "Rizvi Labs";
+				TargetAttributes = {
+					7B7DCB541D2D8C6D00296A68 = {
+						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = LTXTUTVH78;
+					};
+					7B7DCB6D1D2D8C6D00296A68 = {
+						CreatedOnToolsVersion = 7.3.1;
+						TestTargetID = 7B7DCB541D2D8C6D00296A68;
+					};
+					7B7DCB781D2D8C6D00296A68 = {
+						CreatedOnToolsVersion = 7.3.1;
+						TestTargetID = 7B7DCB541D2D8C6D00296A68;
+					};
+				};
+			};
+			buildConfigurationList = 7B7DCB501D2D8C6D00296A68 /* Build configuration list for PBXProject "FLLSCRN" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 7B7DCB4C1D2D8C6D00296A68;
+			productRefGroup = 7B7DCB561D2D8C6D00296A68 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				7B7DCB541D2D8C6D00296A68 /* FLLSCRN */,
+				7B7DCB6D1D2D8C6D00296A68 /* FLLSCRNTests */,
+				7B7DCB781D2D8C6D00296A68 /* FLLSCRNUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		7B7DCB531D2D8C6D00296A68 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7B7DCB981D2E25A400296A68 /* FSAlbumViewCell.xib in Resources */,
+				7B7DCB681D2D8C6D00296A68 /* LaunchScreen.storyboard in Resources */,
+				7B7DCB961D2E25A400296A68 /* FSAlbumView.xib in Resources */,
+				7B7DCB651D2D8C6D00296A68 /* Assets.xcassets in Resources */,
+				7B7DCB631D2D8C6D00296A68 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7B7DCB6C1D2D8C6D00296A68 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7B7DCB771D2D8C6D00296A68 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		02910F973D0C3E64A7C29BEF /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FLLSCRNUITests/Pods-FLLSCRNUITests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		066FBB3A196BF0CD9F40C051 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FLLSCRN/Pods-FLLSCRN-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		3C5BA6597153A9C305651AEA /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		65C9AD8BF6940204DE01CF3A /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FLLSCRNTests/Pods-FLLSCRNTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6EB49C4B7244296FE5C88439 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FLLSCRNTests/Pods-FLLSCRNTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7F04F45E66B8E6D56E6E1F63 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		B4A48A1DD2B492E5F0DAECA1 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FLLSCRN/Pods-FLLSCRN-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B7D238540B171A08332E9E64 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		7B7DCB511D2D8C6D00296A68 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7B7DCB951D2E25A400296A68 /* FSAlbumView.swift in Sources */,
+				7BD4C5DC1D2EA56700DE927A /* FLSCNImagePanScrollbarView.m in Sources */,
+				7BD4C5E01D2EB65800DE927A /* Interactor.swift in Sources */,
+				7B7DCB901D2E19FF00296A68 /* FLSCNImagePicker.swift in Sources */,
+				7B0A38C21D301B0900FD10B8 /* FLSCNInstagramViewController.m in Sources */,
+				7BD4C5DE1D2EB57A00DE927A /* DismissAnimator.swift in Sources */,
+				7B7DCB601D2D8C6D00296A68 /* ViewController.m in Sources */,
+				7B7DCB5D1D2D8C6D00296A68 /* AppDelegate.m in Sources */,
+				7B7DCB5A1D2D8C6D00296A68 /* main.m in Sources */,
+				7BD4C5D91D2EA51800DE927A /* FLSCNImageViewController.m in Sources */,
+				7B7DCB971D2E25A400296A68 /* FSAlbumViewCell.swift in Sources */,
+				7B7DCB9D1D2E266A00296A68 /* FSImageCropView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7B7DCB6A1D2D8C6D00296A68 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7B7DCB731D2D8C6D00296A68 /* FLLSCRNTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7B7DCB751D2D8C6D00296A68 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7B7DCB7E1D2D8C6D00296A68 /* FLLSCRNUITests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		7B7DCB701D2D8C6D00296A68 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7B7DCB541D2D8C6D00296A68 /* FLLSCRN */;
+			targetProxy = 7B7DCB6F1D2D8C6D00296A68 /* PBXContainerItemProxy */;
+		};
+		7B7DCB7B1D2D8C6D00296A68 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7B7DCB541D2D8C6D00296A68 /* FLLSCRN */;
+			targetProxy = 7B7DCB7A1D2D8C6D00296A68 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		7B7DCB611D2D8C6D00296A68 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7B7DCB621D2D8C6D00296A68 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		7B7DCB661D2D8C6D00296A68 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7B7DCB671D2D8C6D00296A68 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		7B7DCB801D2D8C6D00296A68 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		7B7DCB811D2D8C6D00296A68 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		7B7DCB831D2D8C6D00296A68 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C29FF40425D502BF6477EFE7 /* Pods-FLLSCRN.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				INFOPLIST_FILE = FLLSCRN/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = self.edu.Salmaan.FLLSCRN;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "FLLSCRN/FLLSCRN-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		7B7DCB841D2D8C6D00296A68 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = DE471C12A6BD285793519636 /* Pods-FLLSCRN.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				INFOPLIST_FILE = FLLSCRN/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = self.edu.Salmaan.FLLSCRN;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "FLLSCRN/FLLSCRN-Bridging-Header.h";
+			};
+			name = Release;
+		};
+		7B7DCB861D2D8C6D00296A68 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F11D18A692FF3ACC2E4C2F44 /* Pods-FLLSCRNTests.debug.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = FLLSCRNTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = self.edu.Salmaan.FLLSCRNTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FLLSCRN.app/FLLSCRN";
+			};
+			name = Debug;
+		};
+		7B7DCB871D2D8C6D00296A68 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = FF24609EC304A8DEDCCE0CCD /* Pods-FLLSCRNTests.release.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = FLLSCRNTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = self.edu.Salmaan.FLLSCRNTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FLLSCRN.app/FLLSCRN";
+			};
+			name = Release;
+		};
+		7B7DCB891D2D8C6D00296A68 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C0EFB5BDC2D1B02E9C60BA20 /* Pods-FLLSCRNUITests.debug.xcconfig */;
+			buildSettings = {
+				INFOPLIST_FILE = FLLSCRNUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = self.edu.Salmaan.FLLSCRNUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = FLLSCRN;
+			};
+			name = Debug;
+		};
+		7B7DCB8A1D2D8C6D00296A68 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A8F27EFC04139BB4940D98E2 /* Pods-FLLSCRNUITests.release.xcconfig */;
+			buildSettings = {
+				INFOPLIST_FILE = FLLSCRNUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = self.edu.Salmaan.FLLSCRNUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = FLLSCRN;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		7B7DCB501D2D8C6D00296A68 /* Build configuration list for PBXProject "FLLSCRN" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7B7DCB801D2D8C6D00296A68 /* Debug */,
+				7B7DCB811D2D8C6D00296A68 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7B7DCB821D2D8C6D00296A68 /* Build configuration list for PBXNativeTarget "FLLSCRN" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7B7DCB831D2D8C6D00296A68 /* Debug */,
+				7B7DCB841D2D8C6D00296A68 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7B7DCB851D2D8C6D00296A68 /* Build configuration list for PBXNativeTarget "FLLSCRNTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7B7DCB861D2D8C6D00296A68 /* Debug */,
+				7B7DCB871D2D8C6D00296A68 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7B7DCB881D2D8C6D00296A68 /* Build configuration list for PBXNativeTarget "FLLSCRNUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7B7DCB891D2D8C6D00296A68 /* Debug */,
+				7B7DCB8A1D2D8C6D00296A68 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 7B7DCB4D1D2D8C6D00296A68 /* Project object */;
+}

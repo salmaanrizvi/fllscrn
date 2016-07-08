@@ -1,0 +1,6 @@
+framework module Pods_FLLSCRNTests {
+  umbrella header "Pods-FLLSCRNTests-umbrella.h"
+
+  export *
+  module * { export * }
+}
