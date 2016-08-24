@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "InstagramKit.h"
 
-@interface FLSCNInstagramViewController : UIViewController
+@interface FLSCNInstagramViewController : UIViewController<UICollectionViewDelegate, UICollectionViewDataSource>
 
 @end

@@ -12,7 +12,7 @@ import UIKit
 public class FLSCNImagePicker: UIViewController, FSAlbumViewDelegate, UIViewControllerTransitioningDelegate {
     
     var albumView = FSAlbumView.instance()
-    
+        
     @IBOutlet var photoLibraryViewerContainer: UIView!
     @IBOutlet var menuView: UIView!
     @IBOutlet var acceptButton: UIButton!
@@ -47,28 +47,11 @@ public class FLSCNImagePicker: UIViewController, FSAlbumViewDelegate, UIViewCont
         return true
     }
     
-    @IBAction func acceptButtonTapped(sender: UIButton) {
-//        let image = albumView.imageCropView.image
-//        
-//        print("Height: \(image.size.height), Width: \(image.size.width)")
-//        
-//        let imageViewController = self.storyboard?.instantiateViewControllerWithIdentifier("imageController") as! FLSCNImageViewController
-//        
-//        imageViewController.imageForViewing = image
-//        imageViewController.kMovementSmoothing = 0.85;
-//        imageViewController.kAnimationDuration = 0.05;
-//        imageViewController.kRotationMultiplier = 6.0;
-//        
-//        self.presentViewController(imageViewController, animated: true, completion: nil)
-    }
-    
     override public func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
         let image = albumView.imageCropView.image
         
-        if segue.identifier == "imageViewSegue" {
-            
-            print("Image View Segue Called")
+        if segue.identifier == "cameraRollFLSCNSegue" {
             
             let imageViewController: FLSCNImageViewController = segue.destinationViewController as! FLSCNImageViewController
             

@@ -8,6 +8,7 @@ target 'FLLSCRN' do
   # Pods for FLLSCRN
   pod 'Fusuma'
   pod 'InstagramKit', '~> 3.0'
+  pod 'SKPhotoBrowser'
   
   target 'FLLSCRNTests' do
     inherit! :search_paths

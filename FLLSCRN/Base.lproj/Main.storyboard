@@ -19,26 +19,155 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0d6-jx-Js0">
-                                <rect key="frame" x="0.0" y="20" width="600" height="275"/>
-                            </imageView>
+                            <navigationBar contentMode="scaleToFill" barStyle="black" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X3h-wO-yG2">
+                                <rect key="frame" x="0.0" y="20" width="600" height="44"/>
+                                <items>
+                                    <navigationItem title="Instagram" id="GJk-PA-6bY">
+                                        <barButtonItem key="rightBarButtonItem" title="Login" id="b6z-WE-u69">
+                                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <connections>
+                                                <action selector="loginLogoutTapped:" destination="yPb-DN-Zsf" id="bZ6-Z8-FI8"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                            <searchBar contentMode="redraw" barStyle="black" placeholder="@dopest4rs" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3mg-eL-zrI">
+                                <rect key="frame" x="0.0" y="64" width="600" height="44"/>
+                                <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES"/>
+                                <connections>
+                                    <outlet property="delegate" destination="yPb-DN-Zsf" id="UhY-Ed-Tc3"/>
+                                </connections>
+                            </searchBar>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="duD-3g-GJn">
+                                <rect key="frame" x="0.0" y="108" width="600" height="443"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="1" minimumInteritemSpacing="0.0" id="C7F-oz-eN8">
+                                    <size key="itemSize" width="200" height="200"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="igImageCell" id="jmg-pp-HHZ" customClass="IKCell">
+                                        <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jmm-dN-l9e">
+                                                    <rect key="frame" x="8" y="5" width="190" height="190"/>
+                                                </imageView>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <constraints>
+                                            <constraint firstItem="jmm-dN-l9e" firstAttribute="centerX" secondItem="jmg-pp-HHZ" secondAttribute="centerX" multiplier="1.03" id="7dI-V0-UpA"/>
+                                            <constraint firstItem="jmm-dN-l9e" firstAttribute="height" secondItem="jmg-pp-HHZ" secondAttribute="height" multiplier="0.95" id="8gS-5R-h9Z"/>
+                                            <constraint firstItem="jmm-dN-l9e" firstAttribute="width" secondItem="jmg-pp-HHZ" secondAttribute="width" multiplier="0.95" id="Ujk-OR-fsV"/>
+                                            <constraint firstItem="jmm-dN-l9e" firstAttribute="centerY" secondItem="jmg-pp-HHZ" secondAttribute="centerY" id="rG2-lT-3pm"/>
+                                        </constraints>
+                                        <connections>
+                                            <outlet property="imageView" destination="jmm-dN-l9e" id="skc-pA-vaI"/>
+                                            <segue destination="TWX-w2-aR8" kind="presentation" identifier="instagramFLSCNSegue" id="BFJ-YN-FXd"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="yPb-DN-Zsf" id="0it-e9-Z1Y"/>
+                                    <outlet property="delegate" destination="yPb-DN-Zsf" id="L9B-bk-vZV"/>
+                                </connections>
+                            </collectionView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="0d6-jx-Js0" firstAttribute="width" secondItem="lti-Cf-zaJ" secondAttribute="width" id="0bo-L8-le7"/>
-                            <constraint firstItem="0d6-jx-Js0" firstAttribute="height" secondItem="lti-Cf-zaJ" secondAttribute="height" multiplier="0.5" id="IJM-XA-hVX"/>
-                            <constraint firstItem="0d6-jx-Js0" firstAttribute="centerX" secondItem="lti-Cf-zaJ" secondAttribute="centerX" id="i6y-RO-LhU"/>
-                            <constraint firstItem="0d6-jx-Js0" firstAttribute="top" secondItem="kVS-Sb-vYF" secondAttribute="bottom" id="yD6-1a-fZD"/>
+                            <constraint firstItem="duD-3g-GJn" firstAttribute="bottom" secondItem="csL-n9-2XR" secondAttribute="top" id="1BJ-Qm-5JD"/>
+                            <constraint firstItem="3mg-eL-zrI" firstAttribute="top" secondItem="X3h-wO-yG2" secondAttribute="bottom" id="7wJ-s5-eI5"/>
+                            <constraint firstItem="X3h-wO-yG2" firstAttribute="top" secondItem="kVS-Sb-vYF" secondAttribute="bottom" id="8Ym-ri-8bE"/>
+                            <constraint firstItem="X3h-wO-yG2" firstAttribute="width" secondItem="lti-Cf-zaJ" secondAttribute="width" id="AxP-D7-oZD"/>
+                            <constraint firstItem="3mg-eL-zrI" firstAttribute="width" secondItem="lti-Cf-zaJ" secondAttribute="width" id="DzM-RV-YX3"/>
+                            <constraint firstItem="3mg-eL-zrI" firstAttribute="leading" secondItem="X3h-wO-yG2" secondAttribute="leading" id="Mm5-gp-4Nf"/>
+                            <constraint firstItem="duD-3g-GJn" firstAttribute="centerX" secondItem="lti-Cf-zaJ" secondAttribute="centerX" id="W5w-P5-T6N"/>
+                            <constraint firstItem="X3h-wO-yG2" firstAttribute="centerX" secondItem="lti-Cf-zaJ" secondAttribute="centerX" id="feO-Xt-1NY"/>
+                            <constraint firstItem="duD-3g-GJn" firstAttribute="top" secondItem="3mg-eL-zrI" secondAttribute="bottom" id="jnv-Zu-dWt"/>
+                            <constraint firstItem="duD-3g-GJn" firstAttribute="width" secondItem="lti-Cf-zaJ" secondAttribute="width" id="n8H-oD-dFj"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" tag="-5" title="Social" image="at" id="zLL-T7-ck5"/>
                     <connections>
-                        <outlet property="instagramImageView" destination="0d6-jx-Js0" id="3xw-pL-oBQ"/>
+                        <outlet property="igCollection" destination="duD-3g-GJn" id="4E8-kf-tfh"/>
+                        <outlet property="loginLogoutButton" destination="b6z-WE-u69" id="ebW-iG-2NU"/>
+                        <outlet property="navigationBar" destination="GJk-PA-6bY" id="Fuu-WQ-LzW"/>
+                        <outlet property="searchDisplayController" destination="GXg-kn-b7G" id="VfI-2K-ySk"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Iav-AM-zL4" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <searchDisplayController id="GXg-kn-b7G">
+                    <connections>
+                        <outlet property="delegate" destination="yPb-DN-Zsf" id="gPW-Xu-FeU"/>
+                        <outlet property="searchBar" destination="3mg-eL-zrI" id="zyN-ti-2I7"/>
+                        <outlet property="searchContentsController" destination="yPb-DN-Zsf" id="vcF-kD-XWp"/>
+                        <outlet property="searchResultsDataSource" destination="yPb-DN-Zsf" id="WnJ-bA-60S"/>
+                        <outlet property="searchResultsDelegate" destination="yPb-DN-Zsf" id="q88-oU-wb4"/>
+                    </connections>
+                </searchDisplayController>
             </objects>
             <point key="canvasLocation" x="-1112" y="1149"/>
+        </scene>
+        <!--Insta Login View Controller-->
+        <scene sceneID="Apl-0Q-h82">
+            <objects>
+                <viewController storyboardIdentifier="InstagramLoginAuthorizationVC" id="eQI-ja-sds" customClass="FLSCNInstaLoginViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="S2Q-ng-erR"/>
+                        <viewControllerLayoutGuide type="bottom" id="NaK-px-yRV"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="LOu-7b-USb">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nBG-dP-ORS">
+                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="deviceRGB"/>
+                            </webView>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AW2-eT-Pwh">
+                                <rect key="frame" x="0.0" y="20" width="600" height="44"/>
+                                <items>
+                                    <navigationItem title="Login" id="31U-pW-AdN">
+                                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="BLf-ZK-808">
+                                            <connections>
+                                                <action selector="cancelButtonTapped:" destination="eQI-ja-sds" id="LiC-0c-0Sd"/>
+                                            </connections>
+                                        </barButtonItem>
+                                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="8CY-0n-vrv"/>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="nBG-dP-ORS" firstAttribute="width" secondItem="LOu-7b-USb" secondAttribute="width" id="IEF-Rf-Iix"/>
+                            <constraint firstItem="nBG-dP-ORS" firstAttribute="centerY" secondItem="LOu-7b-USb" secondAttribute="centerY" id="M39-qK-Vle"/>
+                            <constraint firstItem="AW2-eT-Pwh" firstAttribute="top" secondItem="S2Q-ng-erR" secondAttribute="bottom" id="OXr-0i-ozA"/>
+                            <constraint firstItem="nBG-dP-ORS" firstAttribute="top" secondItem="AW2-eT-Pwh" secondAttribute="bottom" id="ft4-MJ-Zor"/>
+                            <constraint firstItem="nBG-dP-ORS" firstAttribute="centerX" secondItem="LOu-7b-USb" secondAttribute="centerX" id="gUy-Em-mMx"/>
+                            <constraint firstItem="AW2-eT-Pwh" firstAttribute="centerX" secondItem="LOu-7b-USb" secondAttribute="centerX" id="u7N-4A-XCD"/>
+                            <constraint firstItem="NaK-px-yRV" firstAttribute="top" secondItem="nBG-dP-ORS" secondAttribute="bottom" id="uGW-3t-mTS"/>
+                            <constraint firstItem="AW2-eT-Pwh" firstAttribute="width" secondItem="LOu-7b-USb" secondAttribute="width" id="zap-fa-2oq"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="M39-qK-Vle"/>
+                            </mask>
+                        </variation>
+                    </view>
+                    <connections>
+                        <outlet property="webView" destination="nBG-dP-ORS" id="8ft-2e-i5d"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8md-2T-Dj5" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1112" y="1923"/>
         </scene>
         <!--Camera-->
         <scene sceneID="JCV-Gq-Mas">
@@ -86,17 +215,6 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xym-Z7-KqR" userLabel="Menu View">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="50"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JED-ml-K21" userLabel="Cancel Button">
-                                        <rect key="frame" x="8" y="5" width="40" height="40"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="40" id="OpS-dG-s6D"/>
-                                            <constraint firstAttribute="width" constant="40" id="rgx-oK-lzs"/>
-                                        </constraints>
-                                        <inset key="contentEdgeInsets" minX="6" minY="6" maxX="6" maxY="6"/>
-                                        <state key="normal" image="ic_close"/>
-                                        <state key="selected" image="ic_close"/>
-                                        <state key="highlighted" image="ic_close"/>
-                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gsr-18-ZrC" userLabel="Accept Button">
                                         <rect key="frame" x="552" y="5" width="40" height="40"/>
                                         <constraints>
@@ -108,7 +226,7 @@
                                         <state key="selected" image="ic_check"/>
                                         <state key="highlighted" image="ic_check"/>
                                         <connections>
-                                            <segue destination="TWX-w2-aR8" kind="presentation" identifier="imageViewSegue" id="guc-Uj-FNf"/>
+                                            <segue destination="TWX-w2-aR8" kind="presentation" identifier="cameraRollFLSCNSegue" id="guc-Uj-FNf"/>
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CAMERA ROLL" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hxx-qZ-JdD">
@@ -120,6 +238,17 @@
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JED-ml-K21" userLabel="Cancel Button">
+                                        <rect key="frame" x="8" y="5" width="40" height="40"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="OpS-dG-s6D"/>
+                                            <constraint firstAttribute="width" constant="40" id="rgx-oK-lzs"/>
+                                        </constraints>
+                                        <inset key="contentEdgeInsets" minX="6" minY="6" maxX="6" maxY="6"/>
+                                        <state key="normal" image="ic_close"/>
+                                        <state key="selected" image="ic_close"/>
+                                        <state key="highlighted" image="ic_close"/>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -230,7 +359,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="76C-gL-nsL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-362" y="1873"/>
+            <point key="canvasLocation" x="-362" y="1923"/>
         </scene>
     </scenes>
     <resources>
@@ -239,4 +368,7 @@
         <image name="ic_close" width="48" height="48"/>
         <image name="pictures" width="29" height="29"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="BFJ-YN-FXd"/>
+    </inferredMetricsTieBreakers>
 </document>

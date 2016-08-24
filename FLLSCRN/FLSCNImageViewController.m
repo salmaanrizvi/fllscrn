@@ -9,6 +9,8 @@
 #import "FLSCNImageViewController.h"
 #import "FLSCNImagePanScrollbarView.h"
 #import "FLLSCRN-Swift.h"
+#import "UIImageView+AFNetworking.h"
+
 
 @interface FLSCNImageViewController ()
 
@@ -45,33 +47,8 @@ static CGFloat pitchAngleCushion = 5.f;
 #pragma View Setup
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    NSLog(@"Interactor in Image Picker: shouldFinish: %d hasStarted: %d", self.interactor.shouldFinish, self.interactor.hasStarted);
-    
-    self.maxPitchAngle = NAN;
-    // Do any additional setup after loading the view.
-    
-    self.imageScrollView.frame = self.view.bounds;
-    self.imageScrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-    self.imageScrollView.backgroundColor = [UIColor blackColor];
-    self.imageScrollView.delegate = self;
-    self.imageScrollView.scrollEnabled = NO;
-    self.imageScrollView.alwaysBounceVertical = NO;
-    self.imageScrollView.alwaysBounceHorizontal = YES;
-    self.imageScrollView.maximumZoomScale = 2.f;
-    //self.isMotionBasedPanEnabled = YES;
-    //[self.imageScrollView.pinchGestureRecognizer addTarget:self action:@selector(pinchGestureRecognized:)];
-    
-    [self.view addSubview:self.imageScrollView];
-    
-    self.imageOnScreen = [[UIImageView alloc] initWithFrame:self.view.bounds];
-    self.imageOnScreen.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-    self.imageOnScreen.backgroundColor = [UIColor blackColor];
-    self.imageOnScreen.contentMode = UIViewContentModeScaleAspectFit;
-    
-    [self.imageScrollView addSubview:self.imageOnScreen];
-    [self configureWithImage:self.imageForViewing];
-    
+
+
     self.scrollBarViewBottom = [[FLSCNImagePanScrollbarView alloc] initWithFrame:self.view.bounds edgeInsets:UIEdgeInsetsMake(0.f, 0.f, 0.f, 0.f)];
     self.scrollBarViewBottom.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
     self.scrollBarViewBottom.userInteractionEnabled = NO;
@@ -103,6 +80,30 @@ static CGFloat pitchAngleCushion = 5.f;
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self initializeMotionManager];
+    
+    self.maxPitchAngle = NAN;
+    // Do any additional setup after loading the view.
+    
+    self.imageScrollView.frame = self.view.bounds;
+    self.imageScrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+    self.imageScrollView.backgroundColor = [UIColor blackColor];
+    self.imageScrollView.delegate = self;
+    self.imageScrollView.scrollEnabled = NO;
+    self.imageScrollView.alwaysBounceVertical = NO;
+    self.imageScrollView.alwaysBounceHorizontal = YES;
+    self.imageScrollView.maximumZoomScale = 2.f;
+    //self.isMotionBasedPanEnabled = YES;
+    //[self.imageScrollView.pinchGestureRecognizer addTarget:self action:@selector(pinchGestureRecognized:)];
+    
+    [self.view addSubview:self.imageScrollView];
+    
+    self.imageOnScreen = [[UIImageView alloc] initWithFrame:self.view.bounds];
+    self.imageOnScreen.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+    self.imageOnScreen.backgroundColor = [UIColor blackColor];
+    self.imageOnScreen.contentMode = UIViewContentModeScaleAspectFit;
+    
+    [self.imageScrollView addSubview:self.imageOnScreen];
+    [self configureWithImage:self.imageForViewing];
 }
 
 -(void)viewDidAppear:(BOOL)animated {
@@ -145,6 +146,10 @@ static CGFloat pitchAngleCushion = 5.f;
 
 #pragma Device Zoom Motion Calculation
 -(void)calculateZoomBasedOnDeviceMotionRotationRate:(CMDeviceMotion *)motion {
+    
+    [self.view bringSubviewToFront:self.scrollBarViewTop];
+    [self.view bringSubviewToFront:self.scrollBarViewBottom];
+    [self displayLinkUpdate:self.displayLink];
     
     CGFloat xRotationRate = motion.rotationRate.x;
     CGFloat yRotationRate = motion.rotationRate.y;
@@ -193,16 +198,11 @@ static CGFloat pitchAngleCushion = 5.f;
             self.imageScrollView.zoomScale = self.imageScrollView.maximumZoomScale;
         } completion:nil];
     }
-    else {
-        NSLog(@"This should never be called.");
-    }
 }
 
 #pragma Device Pan Motion Calculation
 - (void)calculateRotationBasedOnDeviceMotionRotationRate:(CMDeviceMotion *)motion
 {
-    //    if (self.isMotionBasedPanEnabled)
-    //    {
     CGFloat xRotationRate = motion.rotationRate.x;
     CGFloat yRotationRate = motion.rotationRate.y;
     CGFloat zRotationRate = motion.rotationRate.z;
@@ -212,9 +212,15 @@ static CGFloat pitchAngleCushion = 5.f;
         CGFloat invertedYRotationRate = yRotationRate * -1;
         
         CGFloat zoomScale = [self maximumZoomScaleForImage:self.imageOnScreen.image];
+        NSLog(@"Zoomscale in Rotation Method Call: %lf", zoomScale);
+        
         CGFloat interpretedXOffset = self.imageScrollView.contentOffset.x + (invertedYRotationRate * zoomScale * self.kRotationMultiplier);
         
+        NSLog(@"Interpreted X Offset: %lf", interpretedXOffset);
+        
         CGPoint contentOffset = [self clampedContentOffsetForHorizontalOffset:interpretedXOffset];
+        
+        NSLog(@"Content Offset: (%lf, %lf)", contentOffset.x, contentOffset.y);
         
         [UIView animateWithDuration:self.kMovementSmoothing
                               delay:0.0f
@@ -223,7 +229,6 @@ static CGFloat pitchAngleCushion = 5.f;
                              [self.imageScrollView setContentOffset:contentOffset animated:NO];
                          } completion:NULL];
     }
-    //    }
 }
 
 - (CGPoint)clampedContentOffsetForHorizontalOffset:(CGFloat)horizontalOffset;
@@ -250,8 +255,23 @@ static CGFloat pitchAngleCushion = 5.f;
 
 - (void)configureWithImage:(UIImage *)image
 {
-    self.imageOnScreen.image = image;
-    [self updateScrollViewZoomToMaximumForImage:image];
+    if (image == nil) {
+        [self.imageOnScreen setImageWithURLRequest:[NSMutableURLRequest requestWithURL:self.imageURL] placeholderImage:nil success:^(NSURLRequest * _Nonnull request, NSHTTPURLResponse * _Nullable response, UIImage * _Nonnull image) {
+                NSLog(@"Successfully loaded photo.");
+                self.imageForViewing = image;
+                self.imageOnScreen.image = image;
+                NSLog(@"Image Size: (h, w) : (%lf, %lf)", self.imageOnScreen.image.size.height, self.imageOnScreen.image.size.width);
+                [self updateScrollViewZoomToMaximumForImage:self.imageForViewing];
+        } failure:^(NSURLRequest * _Nonnull request, NSHTTPURLResponse * _Nullable response, NSError * _Nonnull error) {
+            NSLog(@"Unsuccessfully loaded photo.");
+        }];
+        
+
+    }
+    else {
+        self.imageOnScreen.image = image;
+        [self updateScrollViewZoomToMaximumForImage:self.imageForViewing];
+    }
 }
 
 - (CGFloat)maximumZoomScaleForImage:(UIImage *)image
@@ -271,16 +291,7 @@ static CGFloat pitchAngleCushion = 5.f;
 
 -(void)initializeMotionManager {
     self.motionManager = [[CMMotionManager alloc] init];
-    //[self.motionManager startDeviceMotionUpdates];
-    //[self.motionManager startDeviceMotionUpdatesUsingReferenceFrame:CMAttitudeReferenceFrameXArbitraryZVertical];
     self.motionManager.accelerometerUpdateInterval = 1/self.kAccelerometerFrequency;
-    
-    //    CMQuaternion quat = self.motionManager.deviceMotion.attitude.quaternion;
-    //
-    //    self.maxPitchAngle = [self calculateRotationAngle:@"pitch" FromQuaternion:quat] * (180/ M_PI);
-    //    self.minPitchAngle = self.maxPitchAngle - 10;
-    //
-    //    NSLog(@"\nMax Angle / Initial Angle: %lf \nMin Angle: %lf", self.maxPitchAngle, self.minPitchAngle);
 }
 
 -(CGFloat)calculateRotationAngle:(NSString *)angle FromQuaternion:(CMQuaternion)quat  {
@@ -331,74 +342,30 @@ static CGFloat pitchAngleCushion = 5.f;
 
 - (IBAction)handleDismissGesture:(UIPanGestureRecognizer *)sender {
     
-    NSLog(@"Handle Dismiss Gesture Called.");
-    
-    CGFloat percentThreshold = 0.3;
+    CGFloat percentThreshold = 0.25;
     CGPoint translation = [sender translationInView:self.view];
     CGFloat verticalMovement = translation.y / self.view.bounds.size.height;
     CGFloat downwardMovement = fmaxf(verticalMovement, 0.f);
     CGFloat downwardMovementPercent = fminf(downwardMovement, 1.f);
 
     if (sender.state == UIGestureRecognizerStateBegan){
-        NSLog(@"State Began");
         self.interactor.hasStarted = true;
         [self dismissViewControllerAnimated:YES completion:nil];
     }
     else if (sender.state == UIGestureRecognizerStateChanged) {
-        NSLog(@"State Changed");
         self.interactor.shouldFinish = downwardMovementPercent > percentThreshold;
         [self.interactor updateInteractiveTransition:downwardMovementPercent];
     }
     else if (sender.state == UIGestureRecognizerStateCancelled) {
-        NSLog(@"State Cancelled");
         self.interactor.hasStarted = false;
         [self.interactor cancelInteractiveTransition];
     }
     else if (sender.state == UIGestureRecognizerStateEnded) {
-        NSLog(@"State Ended");
         self.interactor.hasStarted = false;
         self.interactor.shouldFinish
             ?  [self.interactor finishInteractiveTransition]
             : [self.interactor cancelInteractiveTransition];
     }
-
-    
-//    switch (sender.state) {
-//        case UIGestureRecognizerStateBegan:
-//            NSLog(@"State Began");
-//            self.interactor.hasStarted = true;
-//            [self dismissViewControllerAnimated:YES completion:nil];
-//        
-//        case UIGestureRecognizerStateChanged:
-//            NSLog(@"State Changed");
-//            self.interactor.shouldFinish = downwardMovementPercent > percentThreshold;
-//            [self.interactor updateInteractiveTransition:downwardMovementPercent];
-//        
-//        case UIGestureRecognizerStateCancelled:
-//            NSLog(@"State Cancelled");
-//            self.interactor.hasStarted = false;
-//            [self.interactor cancelInteractiveTransition];
-//        
-//        case UIGestureRecognizerStateEnded:
-//            NSLog(@"State Ended");
-//            self.interactor.hasStarted = false;
-//            self.interactor.shouldFinish
-//                ? [self.interactor finishInteractiveTransition]
-//                : [self.interactor cancelInteractiveTransition];
-//        
-//        default:
-//            break;
-//    }
 }
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 @end

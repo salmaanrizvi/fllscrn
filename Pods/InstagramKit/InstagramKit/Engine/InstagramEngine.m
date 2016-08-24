@@ -554,7 +554,7 @@
                      failure:(InstagramFailureBlock)failure
 {
     NSDictionary *params = [self parametersFromCount:count maxId:maxId andPaginationKey:kPaginationKeyMaxId];
-    [self getPaginatedPath:[NSString stringWithFormat:@"users/self/feed"]
+    [self getPaginatedPath:[NSString stringWithFormat:@"users/self/media/recent"]
                 parameters:params
              responseModel:[InstagramMedia class]
                    success:success

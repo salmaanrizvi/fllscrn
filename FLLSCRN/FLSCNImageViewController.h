@@ -14,6 +14,7 @@
 @interface FLSCNImageViewController : UIViewController<UIScrollViewDelegate, UIViewControllerTransitioningDelegate>
 
 @property (strong,nonatomic) UIImage *imageForViewing;
+@property (strong, nonatomic) NSURL *imageURL;
 
 @property (nonatomic) CGFloat kMovementSmoothing;
 @property (nonatomic) CGFloat kAnimationDuration;

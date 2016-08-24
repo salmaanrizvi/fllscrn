@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		2FC9E394BB61195329B74570 /* Pods_FLLSCRNUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5956E85AE6E5A587316D9DF /* Pods_FLLSCRNUITests.framework */; };
 		7B0A38C21D301B0900FD10B8 /* FLSCNInstagramViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B0A38C11D301B0900FD10B8 /* FLSCNInstagramViewController.m */; };
+		7B0A38C51D304ACB00FD10B8 /* FLSCNInstaLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B0A38C41D304ACB00FD10B8 /* FLSCNInstaLoginViewController.m */; };
 		7B7DCB5A1D2D8C6D00296A68 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B7DCB591D2D8C6D00296A68 /* main.m */; };
 		7B7DCB5D1D2D8C6D00296A68 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B7DCB5C1D2D8C6D00296A68 /* AppDelegate.m */; };
 		7B7DCB601D2D8C6D00296A68 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B7DCB5F1D2D8C6D00296A68 /* ViewController.m */; };
@@ -27,6 +28,7 @@
 		7BD4C5DC1D2EA56700DE927A /* FLSCNImagePanScrollbarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BD4C5DB1D2EA56700DE927A /* FLSCNImagePanScrollbarView.m */; };
 		7BD4C5DE1D2EB57A00DE927A /* DismissAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BD4C5DD1D2EB57A00DE927A /* DismissAnimator.swift */; };
 		7BD4C5E01D2EB65800DE927A /* Interactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BD4C5DF1D2EB65800DE927A /* Interactor.swift */; };
+		7BD57BD61D320965006899B5 /* IKCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BD57BD51D320965006899B5 /* IKCell.m */; };
 		8505D4AC2E134B6BE59D4CB1 /* Pods_FLLSCRN.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8936CCBA89B562944342C983 /* Pods_FLLSCRN.framework */; };
 		A27B012108AFB6289A5A882E /* Pods_FLLSCRNTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FD935590236B1A95F890B6A /* Pods_FLLSCRNTests.framework */; };
 /* End PBXBuildFile section */
@@ -52,6 +54,8 @@
 		2FD935590236B1A95F890B6A /* Pods_FLLSCRNTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FLLSCRNTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B0A38C01D301B0900FD10B8 /* FLSCNInstagramViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLSCNInstagramViewController.h; sourceTree = "<group>"; };
 		7B0A38C11D301B0900FD10B8 /* FLSCNInstagramViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLSCNInstagramViewController.m; sourceTree = "<group>"; };
+		7B0A38C31D304ACB00FD10B8 /* FLSCNInstaLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLSCNInstaLoginViewController.h; sourceTree = "<group>"; };
+		7B0A38C41D304ACB00FD10B8 /* FLSCNInstaLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLSCNInstaLoginViewController.m; sourceTree = "<group>"; };
 		7B7DCB551D2D8C6D00296A68 /* FLLSCRN.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FLLSCRN.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B7DCB591D2D8C6D00296A68 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		7B7DCB5B1D2D8C6D00296A68 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -81,6 +85,8 @@
 		7BD4C5DB1D2EA56700DE927A /* FLSCNImagePanScrollbarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLSCNImagePanScrollbarView.m; sourceTree = "<group>"; };
 		7BD4C5DD1D2EB57A00DE927A /* DismissAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DismissAnimator.swift; sourceTree = "<group>"; };
 		7BD4C5DF1D2EB65800DE927A /* Interactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Interactor.swift; sourceTree = "<group>"; };
+		7BD57BD41D320965006899B5 /* IKCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IKCell.h; sourceTree = "<group>"; };
+		7BD57BD51D320965006899B5 /* IKCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IKCell.m; sourceTree = "<group>"; };
 		8936CCBA89B562944342C983 /* Pods_FLLSCRN.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FLLSCRN.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A8F27EFC04139BB4940D98E2 /* Pods-FLLSCRNUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FLLSCRNUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-FLLSCRNUITests/Pods-FLLSCRNUITests.release.xcconfig"; sourceTree = "<group>"; };
 		C0EFB5BDC2D1B02E9C60BA20 /* Pods-FLLSCRNUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FLLSCRNUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FLLSCRNUITests/Pods-FLLSCRNUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -154,7 +160,10 @@
 		7B7DCB571D2D8C6D00296A68 /* FLLSCRN */ = {
 			isa = PBXGroup;
 			children = (
+				7BD57BD31D320952006899B5 /* Instagram Feed */,
 				7B7DCB611D2D8C6D00296A68 /* Main.storyboard */,
+				7B0A38C31D304ACB00FD10B8 /* FLSCNInstaLoginViewController.h */,
+				7B0A38C41D304ACB00FD10B8 /* FLSCNInstaLoginViewController.m */,
 				7B7DCB5B1D2D8C6D00296A68 /* AppDelegate.h */,
 				7B7DCB5C1D2D8C6D00296A68 /* AppDelegate.m */,
 				7B7DCB5E1D2D8C6D00296A68 /* ViewController.h */,
@@ -214,6 +223,15 @@
 				7B7DCB941D2E25A400296A68 /* FSAlbumViewCell.xib */,
 			);
 			name = "Fusuma Album View";
+			sourceTree = "<group>";
+		};
+		7BD57BD31D320952006899B5 /* Instagram Feed */ = {
+			isa = PBXGroup;
+			children = (
+				7BD57BD41D320965006899B5 /* IKCell.h */,
+				7BD57BD51D320965006899B5 /* IKCell.m */,
+			);
+			name = "Instagram Feed";
 			sourceTree = "<group>";
 		};
 		BFEE9DF09B4FA077F4435C81 /* Pods */ = {
@@ -496,9 +514,11 @@
 				7B7DCB951D2E25A400296A68 /* FSAlbumView.swift in Sources */,
 				7BD4C5DC1D2EA56700DE927A /* FLSCNImagePanScrollbarView.m in Sources */,
 				7BD4C5E01D2EB65800DE927A /* Interactor.swift in Sources */,
+				7B0A38C51D304ACB00FD10B8 /* FLSCNInstaLoginViewController.m in Sources */,
 				7B7DCB901D2E19FF00296A68 /* FLSCNImagePicker.swift in Sources */,
 				7B0A38C21D301B0900FD10B8 /* FLSCNInstagramViewController.m in Sources */,
 				7BD4C5DE1D2EB57A00DE927A /* DismissAnimator.swift in Sources */,
+				7BD57BD61D320965006899B5 /* IKCell.m in Sources */,
 				7B7DCB601D2D8C6D00296A68 /* ViewController.m in Sources */,
 				7B7DCB5D1D2D8C6D00296A68 /* AppDelegate.m in Sources */,
 				7B7DCB5A1D2D8C6D00296A68 /* main.m in Sources */,
@@ -653,7 +673,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = FLLSCRN/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = self.edu.Salmaan.FLLSCRN;
+				PRODUCT_BUNDLE_IDENTIFIER = self.rizvi.salmaan.FLLSCRN;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "FLLSCRN/FLLSCRN-Bridging-Header.h";
@@ -671,7 +691,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = FLLSCRN/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = self.edu.Salmaan.FLLSCRN;
+				PRODUCT_BUNDLE_IDENTIFIER = self.rizvi.salmaan.FLLSCRN;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "FLLSCRN/FLLSCRN-Bridging-Header.h";
