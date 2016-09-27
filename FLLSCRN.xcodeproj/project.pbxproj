@@ -79,11 +79,11 @@
 		7B7B0B8B1D89D58E007E3820 /* FLLSCRN */ = {
 			isa = PBXGroup;
 			children = (
-				7BFB2B961D9A2A890086A685 /* FSPhotoAlbum.swift */,
 				7B7B0B8C1D89D58E007E3820 /* AppDelegate.swift */,
 				7B7B0BA41D89E230007E3820 /* MainPageViewController.swift */,
 				7B7B0BA61D89E3E8007E3820 /* CameraViewController.swift */,
 				7B7B0BB01D8A051A007E3820 /* GestureCameraViewController.swift */,
+				7BFB2B961D9A2A890086A685 /* FSPhotoAlbum.swift */,
 				7BBDC1921D98EED100DA48F3 /* Extensions.swift */,
 				7B7B0BAA1D89E5A4007E3820 /* Constants.swift */,
 				7B7B0BA81D89E4BD007E3820 /* CameraFocusSquare.swift */,

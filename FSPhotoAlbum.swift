@@ -10,9 +10,9 @@ import Foundation
 
 import Photos
 
-class CustomPhotoAlbum: NSObject {
-    static let albumName = "Name of Custom Album"
-    static let sharedInstance = CustomPhotoAlbum()
+class FSPhotoAlbum: NSObject {
+    static let albumName = "FLLSCRN"
+    static let sharedInstance = FSPhotoAlbum()
     
     var assetCollection: PHAssetCollection!
     
@@ -49,7 +49,7 @@ class CustomPhotoAlbum: NSObject {
     
     func createAlbum() {
         PHPhotoLibrary.shared().performChanges({
-            PHAssetCollectionChangeRequest.creationRequestForAssetCollection(withTitle: CustomPhotoAlbum.albumName)   // create an asset collection with the album name
+            PHAssetCollectionChangeRequest.creationRequestForAssetCollection(withTitle: FSPhotoAlbum.albumName)   // create an asset collection with the album name
         }) { success, error in
             if success {
                 self.assetCollection = self.fetchAssetCollectionForAlbum()
@@ -61,7 +61,7 @@ class CustomPhotoAlbum: NSObject {
     
     func fetchAssetCollectionForAlbum() -> PHAssetCollection! {
         let fetchOptions = PHFetchOptions()
-        fetchOptions.predicate = NSPredicate(format: "title = %@", CustomPhotoAlbum.albumName)
+        fetchOptions.predicate = NSPredicate(format: "title = %@", FSPhotoAlbum.albumName)
         let collection = PHAssetCollection.fetchAssetCollections(with: .album, subtype: .any, options: fetchOptions)
         
         if let _: AnyObject = collection.firstObject {
@@ -70,17 +70,42 @@ class CustomPhotoAlbum: NSObject {
         return nil
     }
     
-    func saveImage(image: UIImage, metadata: NSDictionary) {
+    func saveImage(image: UIImage, metadata: NSDictionary, completion: @escaping (Bool, Error?)->()) {
         if assetCollection == nil {
             return                          // if there was an error upstream, skip the save
         }
         
         PHPhotoLibrary.shared().performChanges({
+            
             let assetChangeRequest = PHAssetChangeRequest.creationRequestForAsset(from: image)
             let assetPlaceHolder = assetChangeRequest.placeholderForCreatedAsset
             let albumChangeRequest = PHAssetCollectionChangeRequest(for: self.assetCollection)
             let array = NSArray(array: [assetPlaceHolder!])
             albumChangeRequest!.addAssets(array)
-            }, completionHandler: nil)
+        
+        }) { (isComplete, error) in
+            
+            completion(isComplete, error)
+        }
+    }
+    
+    func saveVideo(videoPathURL: URL, completion: @escaping (Bool, Error?)->()) {
+        
+        if assetCollection == nil {
+            return                          // if there was an error upstream, skip the save
+        }
+        
+        PHPhotoLibrary.shared().performChanges({
+            
+            let assetChangeRequest = PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: videoPathURL)
+            let assetPlaceHolder = assetChangeRequest?.placeholderForCreatedAsset
+            let albumChangeRequest = PHAssetCollectionChangeRequest(for: self.assetCollection)
+            let array = NSArray(array: [assetPlaceHolder!])
+            albumChangeRequest!.addAssets(array)
+            
+        }) { (isComplete, error) in
+            
+            completion(isComplete, error)
+        }
     }
 }

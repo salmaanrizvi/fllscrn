@@ -78,8 +78,10 @@ class GestureCameraViewController: UIViewController {
     // UI
     lazy var videoDurationLabel : UILabel   = UILabel()
     lazy var videoDuration      : Int       = 0
-    
     lazy var zoomLabel          : UILabel   = UILabel()
+         var zoomText           : String { return NSString(format: "%0.1f", self.currentZoom) as String }
+    
+    lazy var fsPhotoAlbum : FSPhotoAlbum = FSPhotoAlbum.sharedInstance
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -133,6 +135,7 @@ class GestureCameraViewController: UIViewController {
             }
             
             self.movieFileOutput.connection(withMediaType: AVMediaTypeVideo).videoOrientation = .portrait
+//            self.movieFileOutput.movieFragmentInterval = kCMTimeInvalid
             
             self.captureSession.commitConfiguration()
             
@@ -146,10 +149,23 @@ class GestureCameraViewController: UIViewController {
     
     func addAudioInputs() {
         
-        self.audioCaptureDevice = AVCaptureDevice.devices(withMediaType: AVMediaTypeAudio).first as! AVCaptureDevice
-        audioInputDevice =  try! AVCaptureDeviceInput(device: audioCaptureDevice)
-        self.captureSession.addInput(audioInputDevice)
-        print("Audio device is \(audioCaptureDevice.description)")
+        self.audioCaptureDevice = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeAudio)
+        
+        do {
+            self.audioInputDevice = try AVCaptureDeviceInput(device: self.audioCaptureDevice)
+            
+            self.captureSession.beginConfiguration()
+            
+            if self.captureSession.canAddInput(self.audioInputDevice) {
+                self.captureSession.addInput(self.audioInputDevice)
+            }
+            
+            self.captureSession.commitConfiguration()
+        }
+        catch let error as NSError {
+            print("Could not configure audio: \(error.localizedDescription)")
+        }
+        
         print("Has audio \(self.captureSession.usesApplicationAudioSession)")
     }
 }
@@ -163,13 +179,21 @@ extension GestureCameraViewController : AVCaptureFileOutputRecordingDelegate, AV
     
     func capture(_ captureOutput: AVCaptureFileOutput!, didFinishRecordingToOutputFileAt outputFileURL: URL!, fromConnections connections: [Any]!, error: Error!) {
         
-        let asset : AVURLAsset = AVURLAsset(url: outputFileURL, options: nil)
+//        let asset : AVURLAsset = AVURLAsset(url: outputFileURL, options: nil)
+//
+//        print("Segment finished recording. Video asset is \(asset)")
+//        
+//        print(UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(asset.url.path))
+//        
+//        UISaveVideoAtPathToSavedPhotosAlbum(asset.url.path, self, #selector(video(videoPath:didFinishSavingWithError:contextInfo:)), nil)
 
-        print("Segment finished recording. Video asset is \(asset)")
+        print("Saving from connections: \(connections as! [AVCaptureConnection])")
         
-        print(UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(asset.url.path))
-        
-        UISaveVideoAtPathToSavedPhotosAlbum(asset.url.path, self, #selector(video(videoPath:didFinishSavingWithError:contextInfo:)), nil)
+        self.fsPhotoAlbum.saveVideo(videoPathURL: outputFileURL) { (isComplete, error) in
+            
+            if let error = error { print(error.localizedDescription) }
+            else if isComplete { print("Saved video.") }
+        }
         
         self.timer.invalidate()
         self.isRecording = false
@@ -319,13 +343,16 @@ extension GestureCameraViewController : UIGestureRecognizerDelegate {
                 if abs(zoomFactor) > 0.035 {
                     self.zoom(to: zoomFactor, withRate: 3.5)
                 }
+                else {
+                    self.zoom(to: 1.0, withRate: 3.5)
+                }
             }
         }
     }
     
     fileprivate func recordVideoToFile() -> URL {
         
-        let outputFilePath = self.outputPath + "output-\(self.appendix).mp4"
+        let outputFilePath = self.outputPath + "output-\(self.appendix).mov"
         self.appendix += 1
         let outputURL = URL(fileURLWithPath: outputFilePath)
         let fileManager = FileManager.default
@@ -364,8 +391,7 @@ extension GestureCameraViewController : UIGestureRecognizerDelegate {
     
     func updateShapeLayer() {
         self.leftShapeLayer.path = self.currentPath()
-        let zoomText = NSString(format: "%0.1f", self.currentZoom)
-        self.zoomLabel.text = "\(zoomText as String)x"
+        self.zoomLabel.text = "\(self.zoomText)x"
     }
     
     func startTimer() {
@@ -399,10 +425,10 @@ extension GestureCameraViewController : UIGestureRecognizerDelegate {
         let topPartWidth = locationY - minTopY
         let bottomPartWidth = maxBottomY - locationY
         
-        print("minTopY: \(minTopY)")
-        print("maxBottomY: \(maxBottomY)")
-        print("topPartWidth: \(topPartWidth)")
-        print("bottomPartWidth: \(bottomPartWidth)")
+//        print("minTopY: \(minTopY)")
+//        print("maxBottomY: \(maxBottomY)")
+//        print("topPartWidth: \(topPartWidth)")
+//        print("bottomPartWidth: \(bottomPartWidth)")
         
         self.l3ControlPointView.center = CGPoint(x: baseWidth, y: minTopY)
         self.l2ControlPointView.center = CGPoint(x: baseWidth, y: minTopY + topPartWidth * 0.44)
@@ -411,8 +437,6 @@ extension GestureCameraViewController : UIGestureRecognizerDelegate {
         self.r1ControlPointView.center = CGPoint(x: baseWidth + waveWidth * 0.64, y: maxBottomY - bottomPartWidth * 0.71)
         self.r2ControlPointView.center = CGPoint(x: baseWidth, y: maxBottomY - (bottomPartWidth * 0.44))
         self.r3ControlPointView.center = CGPoint(x: baseWidth, y: maxBottomY)
-        
-        print("r3 center: \(self.r3ControlPointView.center)")
         
         self.videoDurationLabel.center = CGPoint(x: baseWidth + waveWidth * 0.6, y: locationY - self.videoDurationLabel.bounds.height)
         self.zoomLabel.center = CGPoint(x: self.videoDurationLabel.center.x, y: self.videoDurationLabel.center.y + self.zoomLabel.bounds.height)
