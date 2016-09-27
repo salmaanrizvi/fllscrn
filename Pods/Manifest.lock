@@ -1,0 +1,48 @@
+PODS:
+  - FontAwesome.swift (0.11.1)
+  - IQKeyboardManagerSwift (4.0.4)
+  - KCFloatingActionButton (2.0.0)
+  - SCLAlertView (0.6.0)
+
+DEPENDENCIES:
+  - FontAwesome.swift (from `https://github.com/thii/FontAwesome.swift.git`, branch `master`)
+  - IQKeyboardManagerSwift (from `https://github.com/hackiftekhar/IQKeyboardManager.git`, branch `swift3`)
+  - KCFloatingActionButton (from `https://github.com/kciter/KCFloatingActionButton.git`, branch `swift3.0`)
+  - SCLAlertView (from `https://github.com/vikmeup/SCLAlertView-Swift`)
+
+EXTERNAL SOURCES:
+  FontAwesome.swift:
+    :branch: master
+    :git: https://github.com/thii/FontAwesome.swift.git
+  IQKeyboardManagerSwift:
+    :branch: swift3
+    :git: https://github.com/hackiftekhar/IQKeyboardManager.git
+  KCFloatingActionButton:
+    :branch: swift3.0
+    :git: https://github.com/kciter/KCFloatingActionButton.git
+  SCLAlertView:
+    :git: https://github.com/vikmeup/SCLAlertView-Swift
+
+CHECKOUT OPTIONS:
+  FontAwesome.swift:
+    :commit: fd641b95728e566e5b4f2d37ed94486162ea5a65
+    :git: https://github.com/thii/FontAwesome.swift.git
+  IQKeyboardManagerSwift:
+    :commit: d27180d877c8d36d5be80ee9d8c24d184ac26081
+    :git: https://github.com/hackiftekhar/IQKeyboardManager.git
+  KCFloatingActionButton:
+    :commit: 32c645548daa55470ca12425bc9d975e69f18a4f
+    :git: https://github.com/kciter/KCFloatingActionButton.git
+  SCLAlertView:
+    :commit: 2c00bfd1199b984476724c79914d553063ae0b46
+    :git: https://github.com/vikmeup/SCLAlertView-Swift
+
+SPEC CHECKSUMS:
+  FontAwesome.swift: 9879cd6a1462bf160662d519f7b7474d73bdd1c3
+  IQKeyboardManagerSwift: e0964d04d6a29b71016fd346dca13ecb80a2823a
+  KCFloatingActionButton: 3eab4ed6b2ef2e37d5dea82e621fe01d2277a943
+  SCLAlertView: 0f6b3c23a48b4993564ff1dd3c065782e4b2b687
+
+PODFILE CHECKSUM: e0dc9358056b5eea29d793273788d2de19a716b6
+
+COCOAPODS: 1.0.1

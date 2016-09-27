@@ -1,0 +1,6 @@
+framework module Pods_FLLSCRN {
+  umbrella header "Pods-FLLSCRN-umbrella.h"
+
+  export *
+  module * { export * }
+}

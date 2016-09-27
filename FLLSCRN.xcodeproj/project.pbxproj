@@ -7,23 +7,43 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5F9C9DB5E6EA6E1E169D7D88 /* Pods_FLLSCRN.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 941354E2CC44D5FF68A5D620 /* Pods_FLLSCRN.framework */; };
 		7B7B0B8D1D89D58E007E3820 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7B0B8C1D89D58E007E3820 /* AppDelegate.swift */; };
-		7B7B0B8F1D89D58E007E3820 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7B0B8E1D89D58E007E3820 /* ViewController.swift */; };
 		7B7B0B921D89D58E007E3820 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7B7B0B901D89D58E007E3820 /* Main.storyboard */; };
 		7B7B0B951D89D58E007E3820 /* FLLSCRN.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7B7B0B931D89D58E007E3820 /* FLLSCRN.xcdatamodeld */; };
 		7B7B0B971D89D58E007E3820 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7B7B0B961D89D58E007E3820 /* Assets.xcassets */; };
 		7B7B0B9A1D89D58E007E3820 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7B7B0B981D89D58E007E3820 /* LaunchScreen.storyboard */; };
+		7B7B0BA51D89E230007E3820 /* MainPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7B0BA41D89E230007E3820 /* MainPageViewController.swift */; };
+		7B7B0BA71D89E3E8007E3820 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7B0BA61D89E3E8007E3820 /* CameraViewController.swift */; };
+		7B7B0BA91D89E4BD007E3820 /* CameraFocusSquare.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7B0BA81D89E4BD007E3820 /* CameraFocusSquare.swift */; };
+		7B7B0BAB1D89E5A4007E3820 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7B0BAA1D89E5A4007E3820 /* Constants.swift */; };
+		7B7B0BAD1D89E5C0007E3820 /* Deal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7B0BAC1D89E5C0007E3820 /* Deal.swift */; };
+		7B7B0BAF1D89EC33007E3820 /* VideoAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7B0BAE1D89EC33007E3820 /* VideoAsset.swift */; };
+		7B7B0BB11D8A051A007E3820 /* GestureCameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7B0BB01D8A051A007E3820 /* GestureCameraViewController.swift */; };
+		7BBDC1931D98EED200DA48F3 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BBDC1921D98EED100DA48F3 /* Extensions.swift */; };
+		7BFB2B971D9A2A890086A685 /* FSPhotoAlbum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BFB2B961D9A2A890086A685 /* FSPhotoAlbum.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		7B7B0B891D89D58E007E3820 /* FLLSCRN.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FLLSCRN.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B7B0B8C1D89D58E007E3820 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		7B7B0B8E1D89D58E007E3820 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		7B7B0B911D89D58E007E3820 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		7B7B0B941D89D58E007E3820 /* FLLSCRN.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = FLLSCRN.xcdatamodel; sourceTree = "<group>"; };
 		7B7B0B961D89D58E007E3820 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7B7B0B991D89D58E007E3820 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7B7B0B9B1D89D58E007E3820 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7B7B0BA41D89E230007E3820 /* MainPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainPageViewController.swift; sourceTree = "<group>"; };
+		7B7B0BA61D89E3E8007E3820 /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
+		7B7B0BA81D89E4BD007E3820 /* CameraFocusSquare.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraFocusSquare.swift; sourceTree = "<group>"; };
+		7B7B0BAA1D89E5A4007E3820 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		7B7B0BAC1D89E5C0007E3820 /* Deal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Deal.swift; sourceTree = "<group>"; };
+		7B7B0BAE1D89EC33007E3820 /* VideoAsset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoAsset.swift; sourceTree = "<group>"; };
+		7B7B0BB01D8A051A007E3820 /* GestureCameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GestureCameraViewController.swift; sourceTree = "<group>"; };
+		7BBDC1921D98EED100DA48F3 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		7BFB2B961D9A2A890086A685 /* FSPhotoAlbum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FSPhotoAlbum.swift; path = ../FSPhotoAlbum.swift; sourceTree = "<group>"; };
+		8793B7EB6C4761DD5E70E997 /* Pods-FLLSCRN.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FLLSCRN.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FLLSCRN/Pods-FLLSCRN.debug.xcconfig"; sourceTree = "<group>"; };
+		941354E2CC44D5FF68A5D620 /* Pods_FLLSCRN.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FLLSCRN.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AD484D89A58BCE985E2E1CEA /* Pods-FLLSCRN.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FLLSCRN.release.xcconfig"; path = "Pods/Target Support Files/Pods-FLLSCRN/Pods-FLLSCRN.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,6 +51,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5F9C9DB5E6EA6E1E169D7D88 /* Pods_FLLSCRN.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -42,6 +63,8 @@
 			children = (
 				7B7B0B8B1D89D58E007E3820 /* FLLSCRN */,
 				7B7B0B8A1D89D58E007E3820 /* Products */,
+				7FF726B7332D943524F47A36 /* Pods */,
+				D7A3F063F08BEA842ED32416 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -56,8 +79,16 @@
 		7B7B0B8B1D89D58E007E3820 /* FLLSCRN */ = {
 			isa = PBXGroup;
 			children = (
+				7BFB2B961D9A2A890086A685 /* FSPhotoAlbum.swift */,
 				7B7B0B8C1D89D58E007E3820 /* AppDelegate.swift */,
-				7B7B0B8E1D89D58E007E3820 /* ViewController.swift */,
+				7B7B0BA41D89E230007E3820 /* MainPageViewController.swift */,
+				7B7B0BA61D89E3E8007E3820 /* CameraViewController.swift */,
+				7B7B0BB01D8A051A007E3820 /* GestureCameraViewController.swift */,
+				7BBDC1921D98EED100DA48F3 /* Extensions.swift */,
+				7B7B0BAA1D89E5A4007E3820 /* Constants.swift */,
+				7B7B0BA81D89E4BD007E3820 /* CameraFocusSquare.swift */,
+				7B7B0BAC1D89E5C0007E3820 /* Deal.swift */,
+				7B7B0BAE1D89EC33007E3820 /* VideoAsset.swift */,
 				7B7B0B901D89D58E007E3820 /* Main.storyboard */,
 				7B7B0B961D89D58E007E3820 /* Assets.xcassets */,
 				7B7B0B981D89D58E007E3820 /* LaunchScreen.storyboard */,
@@ -67,6 +98,23 @@
 			path = FLLSCRN;
 			sourceTree = "<group>";
 		};
+		7FF726B7332D943524F47A36 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				8793B7EB6C4761DD5E70E997 /* Pods-FLLSCRN.debug.xcconfig */,
+				AD484D89A58BCE985E2E1CEA /* Pods-FLLSCRN.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		D7A3F063F08BEA842ED32416 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				941354E2CC44D5FF68A5D620 /* Pods_FLLSCRN.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -74,9 +122,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7B7B0B9E1D89D58E007E3820 /* Build configuration list for PBXNativeTarget "FLLSCRN" */;
 			buildPhases = (
+				89B27CA0C77C937A7268A832 /* [CP] Check Pods Manifest.lock */,
 				7B7B0B851D89D58E007E3820 /* Sources */,
 				7B7B0B861D89D58E007E3820 /* Frameworks */,
 				7B7B0B871D89D58E007E3820 /* Resources */,
+				EFB541CB8A82DC6CA9BA7279 /* [CP] Embed Pods Frameworks */,
+				30B00D32986BF3EA6612ED75 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -99,6 +150,8 @@
 				TargetAttributes = {
 					7B7B0B881D89D58E007E3820 = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = LTXTUTVH78;
+						LastSwiftMigration = 0800;
 					};
 				};
 			};
@@ -133,14 +186,70 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		30B00D32986BF3EA6612ED75 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FLLSCRN/Pods-FLLSCRN-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		89B27CA0C77C937A7268A832 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		EFB541CB8A82DC6CA9BA7279 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FLLSCRN/Pods-FLLSCRN-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		7B7B0B851D89D58E007E3820 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				7B7B0B951D89D58E007E3820 /* FLLSCRN.xcdatamodeld in Sources */,
-				7B7B0B8F1D89D58E007E3820 /* ViewController.swift in Sources */,
+				7B7B0BA91D89E4BD007E3820 /* CameraFocusSquare.swift in Sources */,
+				7B7B0BAF1D89EC33007E3820 /* VideoAsset.swift in Sources */,
+				7B7B0BA51D89E230007E3820 /* MainPageViewController.swift in Sources */,
+				7BFB2B971D9A2A890086A685 /* FSPhotoAlbum.swift in Sources */,
+				7B7B0BA71D89E3E8007E3820 /* CameraViewController.swift in Sources */,
+				7BBDC1931D98EED200DA48F3 /* Extensions.swift in Sources */,
 				7B7B0B8D1D89D58E007E3820 /* AppDelegate.swift in Sources */,
+				7B7B0BAB1D89E5A4007E3820 /* Constants.swift in Sources */,
+				7B7B0BB11D8A051A007E3820 /* GestureCameraViewController.swift in Sources */,
+				7B7B0BAD1D89E5C0007E3820 /* Deal.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -251,23 +360,31 @@
 		};
 		7B7B0B9F1D89D58E007E3820 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8793B7EB6C4761DD5E70E997 /* Pods-FLLSCRN.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = LTXTUTVH78;
 				INFOPLIST_FILE = FLLSCRN/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = self.edu.Salmaan.FLLSCRN;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
 		7B7B0BA01D89D58E007E3820 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = AD484D89A58BCE985E2E1CEA /* Pods-FLLSCRN.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = LTXTUTVH78;
 				INFOPLIST_FILE = FLLSCRN/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = self.edu.Salmaan.FLLSCRN;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -290,6 +407,7 @@
 				7B7B0BA01D89D58E007E3820 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
