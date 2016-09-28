@@ -7,7 +7,6 @@
 //
 
 import Foundation
-
 import Photos
 
 class FSPhotoAlbum: NSObject {
@@ -70,6 +69,56 @@ class FSPhotoAlbum: NSObject {
         return nil
     }
     
+    func fetchAssets(limit : Int) -> PHFetchResult<PHAsset> {
+        let fetchOptions = PHFetchOptions()
+        fetchOptions.fetchLimit = limit
+        fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+        return PHAsset.fetchAssets(in: self.assetCollection, options: fetchOptions)
+    }
+    
+    func getImages(count: Int, completion: @escaping ([UIImage?])->()) {
+        
+        var imageArray : [UIImage?] = []
+        let imageSize = CGSize(width: kCBottomBarHeight, height: kCBottomBarHeight)
+        
+        let imageManager = PHImageManager.default()
+        let requestOptions = PHImageRequestOptions()
+        requestOptions.deliveryMode = .highQualityFormat
+        
+        let fsImages = self.fetchAssets(limit: count)
+        
+        if count == 1 {
+
+            if let firstImageAsset = fsImages.firstObject {
+                
+                imageManager.requestImage(for: firstImageAsset, targetSize: imageSize, contentMode: .aspectFill, options: requestOptions, resultHandler: { (image, info) in
+                    
+                    imageArray.append(image)
+                    completion(imageArray)
+                })
+            }
+        }
+        else {
+            
+            let dispatchGroup = DispatchGroup()
+            
+            fsImages.enumerateObjects({ (imageAsset, index, pointer) in
+                
+                dispatchGroup.enter()
+                
+                imageManager.requestImage(for: imageAsset, targetSize: imageSize, contentMode: .aspectFill, options: requestOptions, resultHandler: { (image, info) in
+                    
+                    imageArray.append(image)
+                    dispatchGroup.leave()
+                })
+            })
+            
+            dispatchGroup.notify(queue: .main, execute: { 
+                completion(imageArray)
+            })
+        }
+    }
+    
     func saveImage(image: UIImage, metadata: NSDictionary, completion: @escaping (Bool, Error?)->()) {
         if assetCollection == nil {
             return                          // if there was an error upstream, skip the save
@@ -107,5 +156,58 @@ class FSPhotoAlbum: NSObject {
             
             completion(isComplete, error)
         }
+    }
+    
+    func generateThumbnailFrom(filePath: URL) -> UIImage? {
+        
+        let asset = AVURLAsset(url: filePath)
+        
+        let imageGenerator = AVAssetImageGenerator(asset: asset)
+        imageGenerator.appliesPreferredTrackTransform = true
+        
+        do {
+            let cgImage = try imageGenerator.copyCGImage(at: CMTime(value: 0, timescale: 1), actualTime: nil)
+            
+            return self.cropToBounds(image: UIImage(cgImage: cgImage), width: kCBottomBarHeight, height: kCBottomBarHeight)
+        }
+        catch let error as NSError {
+            print("Error generating thumbnail: \(error)")
+            return nil
+        }
+    }
+    
+    func cropToBounds(image: UIImage, width: CGFloat, height: CGFloat) -> UIImage {
+        
+        let contextImage: UIImage = UIImage(cgImage: image.cgImage!)
+        
+        let contextSize: CGSize = contextImage.size
+        
+        var posX: CGFloat = 0.0
+        var posY: CGFloat = 0.0
+        var cgwidth: CGFloat = CGFloat(width)
+        var cgheight: CGFloat = CGFloat(height)
+        
+        // See what size is longer and create the center off of that
+        if contextSize.width > contextSize.height {
+            posX = ((contextSize.width - contextSize.height) / 2)
+            posY = 0
+            cgwidth = contextSize.height
+            cgheight = contextSize.height
+        } else {
+            posX = 0
+            posY = ((contextSize.height - contextSize.width) / 2)
+            cgwidth = contextSize.width
+            cgheight = contextSize.width
+        }
+        
+        let rect: CGRect = CGRect(x: posX, y: posY, width: cgwidth, height: cgheight)
+        
+        // Create bitmap image from context using the rect
+        let imageRef: CGImage = contextImage.cgImage!.cropping(to: rect)!
+        
+        // Create a new image based on the imageRef and rotate back to the original orientation
+        let image: UIImage = UIImage(cgImage: imageRef, scale: image.scale, orientation: image.imageOrientation)
+        
+        return image
     }
 }

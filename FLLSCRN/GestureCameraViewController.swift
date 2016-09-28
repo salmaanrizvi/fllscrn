@@ -10,8 +10,10 @@ import UIKit
 import AVFoundation
 import Photos
 
+let kCThumbnailSize     : CGSize        = CGSize(width: kCBottomBarHeight - padding, height: kCBottomBarHeight - padding)
 let kCTimeInterval      : TimeInterval  = 1 // second
-let kCBottomBarHeight   : CGFloat       = 50
+let kCBottomBarHeight   : CGFloat       = 100
+let padding             : CGFloat       = 15
 
 class GestureCameraViewController: UIViewController {
 
@@ -41,8 +43,6 @@ class GestureCameraViewController: UIViewController {
         preview?.bounds = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height - kCBottomBarHeight)
         preview?.position = CGPoint(x: self.view.bounds.midX, y: self.view.bounds.midY - kCBottomBarHeight / 2)
         preview?.videoGravity = AVLayerVideoGravityResizeAspectFill //AVLayerVideoGravityResize
-        print(preview?.bounds)
-        print(preview?.position)
         return preview!
     }()
     
@@ -74,12 +74,15 @@ class GestureCameraViewController: UIViewController {
     var width           : CGFloat { return self.view.bounds.width }
     var currentZoom     : CGFloat { return self.captureDevice.videoZoomFactor }
     lazy var maxZoom    : CGFloat = self.captureDevice.activeFormat.videoMaxZoomFactor
+    lazy var videoDuration      : Int       = 0
+    var zoomText           : String { return NSString(format: "%0.1f", self.currentZoom) as String }    
     
     // UI
     lazy var videoDurationLabel : UILabel   = UILabel()
-    lazy var videoDuration      : Int       = 0
     lazy var zoomLabel          : UILabel   = UILabel()
-         var zoomText           : String { return NSString(format: "%0.1f", self.currentZoom) as String }
+    lazy var fsAlbumImageView   : UIImageView = UIImageView()
+    lazy var imageView          : UIImageView = UIImageView(frame: self.previewLayer.frame)
+    var thumbnail               : UIImage?
     
     lazy var fsPhotoAlbum : FSPhotoAlbum = FSPhotoAlbum.sharedInstance
     
@@ -90,13 +93,13 @@ class GestureCameraViewController: UIViewController {
         self.addGestures()
         self.loadVideoCamera()
         self.addAudioInputs()
+        self.addAlbumView()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
         self.view.layer.addSublayer(self.previewLayer)
-        
         self.setupGestureViews()
         
         self.captureSession.startRunning()
@@ -168,6 +171,30 @@ class GestureCameraViewController: UIViewController {
         
         print("Has audio \(self.captureSession.usesApplicationAudioSession)")
     }
+    
+    func addAlbumView() {
+        
+        self.fsAlbumImageView.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(self.fsAlbumImageView)
+        
+        self.fsAlbumImageView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -padding).isActive = true
+        self.fsAlbumImageView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        self.fsAlbumImageView.heightAnchor.constraint(equalToConstant: kCBottomBarHeight - 2 * padding).isActive = true
+        self.fsAlbumImageView.widthAnchor.constraint(equalTo: self.fsAlbumImageView.heightAnchor).isActive = true
+        
+        self.fsAlbumImageView.backgroundColor = UIColor.darkGray
+        self.fsAlbumImageView.contentMode = .scaleAspectFill
+        
+        print("Album view frame: \(fsAlbumImageView.frame)")
+        
+        self.fsPhotoAlbum.getImages(count: 1) { (imageArray) in
+            
+            let croppedImage = self.fsPhotoAlbum.cropToBounds(image: imageArray.first!!, width: kCBottomBarHeight, height: kCBottomBarHeight)
+            
+            DispatchQueue.main.async { self.fsAlbumImageView.image = croppedImage }
+            
+        }
+    }
 }
 
 extension GestureCameraViewController : AVCaptureFileOutputRecordingDelegate, AVCaptureVideoDataOutputSampleBufferDelegate {
@@ -179,20 +206,18 @@ extension GestureCameraViewController : AVCaptureFileOutputRecordingDelegate, AV
     
     func capture(_ captureOutput: AVCaptureFileOutput!, didFinishRecordingToOutputFileAt outputFileURL: URL!, fromConnections connections: [Any]!, error: Error!) {
         
-//        let asset : AVURLAsset = AVURLAsset(url: outputFileURL, options: nil)
-//
-//        print("Segment finished recording. Video asset is \(asset)")
-//        
-//        print(UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(asset.url.path))
-//        
-//        UISaveVideoAtPathToSavedPhotosAlbum(asset.url.path, self, #selector(video(videoPath:didFinishSavingWithError:contextInfo:)), nil)
-
-        print("Saving from connections: \(connections as! [AVCaptureConnection])")
-        
         self.fsPhotoAlbum.saveVideo(videoPathURL: outputFileURL) { (isComplete, error) in
             
             if let error = error { print(error.localizedDescription) }
-            else if isComplete { print("Saved video.") }
+            else if isComplete {
+                
+                print("Saved video.")
+                
+                DispatchQueue.main.async {
+                    self.thumbnail = self.fsPhotoAlbum.generateThumbnailFrom(filePath: outputFileURL)
+                    self.animate(thumbnail: self.thumbnail)
+                }
+            }
         }
         
         self.timer.invalidate()
@@ -200,10 +225,6 @@ extension GestureCameraViewController : AVCaptureFileOutputRecordingDelegate, AV
         self.videoDuration = 0
         self.videoDurationLabel.text = "0s"
         self.zoomLabel.text = "1.0x"
-    }
-    
-    func video(videoPath: String, didFinishSavingWithError error: NSError?, contextInfo info: UnsafeMutableRawPointer) {
-        print("Error: \(error)")
     }
     
     func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, from connection: AVCaptureConnection!) {
@@ -275,7 +296,7 @@ extension GestureCameraViewController : UIGestureRecognizerDelegate {
         
         let videoSwipeGesture = UIScreenEdgePanGestureRecognizer()
         videoSwipeGesture.accessibilityLabel = "video"
-        videoSwipeGesture.edges = .right
+        videoSwipeGesture.edges = .left
         videoSwipeGesture.delegate = self
         videoSwipeGesture.maximumNumberOfTouches = 2
         videoSwipeGesture.addTarget(self, action: #selector(recordFrom))
@@ -283,7 +304,7 @@ extension GestureCameraViewController : UIGestureRecognizerDelegate {
         
         let photoSwipeGesture = UIScreenEdgePanGestureRecognizer()
         photoSwipeGesture.accessibilityLabel = "photo"
-        photoSwipeGesture.edges = .left
+        photoSwipeGesture.edges = .right
         photoSwipeGesture.delegate = self
         photoSwipeGesture.maximumNumberOfTouches = 2
         photoSwipeGesture.addTarget(self, action: #selector(recordFrom))
@@ -292,12 +313,12 @@ extension GestureCameraViewController : UIGestureRecognizerDelegate {
     
     func recordFrom(gesture : UIScreenEdgePanGestureRecognizer) {
         
-        if gesture.accessibilityLabel == "photo" {
+        if gesture.accessibilityLabel == "video" {
 
             if gesture.state == .ended || gesture.state == .cancelled || gesture.state == .failed {
                 
-                self.movieFileOutput.stopRecording()
-                self.zoom(to: 1.0, withRate: 50.0)
+                if self.isRecording { self.movieFileOutput.stopRecording() }
+                self.zoom(to: 1.0, withRate: 75.0)
                 self.captureDevice.unlockForConfiguration()
                 self.animating = true
                 
@@ -321,11 +342,12 @@ extension GestureCameraViewController : UIGestureRecognizerDelegate {
             }
             else {
                 
-                if !self.isRecording {
-                    _ = self.recordVideoToFile()
-                    self.isRecording = true
-                    self.lockDevice()
-                }
+//                if !self.isRecording {
+//                    _ = self.recordVideoToFile()
+//                    self.isRecording = true
+//                    self.lockDevice()
+//                }
+                self.lockDevice()
                 
                 let additionalHeight = max(gesture.translation(in: view).x, 0)
                 
@@ -334,9 +356,16 @@ extension GestureCameraViewController : UIGestureRecognizerDelegate {
                 
                 let locationY = gesture.location(in: gesture.view).y
                 
+                if baseWidth == self.maxBaseWidth && !self.isRecording {
+                    _ = self.recordVideoToFile()
+                    self.isRecording = true
+                    self.leftShapeLayer.fillColor = UIColor.fllscrnRed(alpha: 0.2).cgColor
+                }
+                else if !self.isRecording { self.updateAlpha(to: baseWidth / self.maxBaseWidth) }
+                
                 self.layoutControlPoints(baseWidth: baseWidth, waveWidth: waveWidth, locationY: locationY)
                 self.updateShapeLayer()
-                self.updateAlpha(to: baseWidth/self.maxBaseWidth)
+//                self.updateAlpha(to: baseWidth/self.maxBaseWidth)
                 
                 let zoomFactor = gesture.translation(in: view).y/self.height
 
@@ -405,7 +434,7 @@ extension GestureCameraViewController : UIGestureRecognizerDelegate {
     }
     
     func updateAlpha(to percent: CGFloat) {
-        self.leftShapeLayer.fillColor = UIColor.fllscrnRed(alpha: max(1 - percent, 0.45)).cgColor
+        self.leftShapeLayer.fillColor = UIColor.fllscrnRed(alpha: max(1 - percent, 0.6)).cgColor
     }
     
     func lockDevice() {
@@ -450,3 +479,25 @@ extension GestureCameraViewController : UIGestureRecognizerDelegate {
     }
 }
 
+// Animations
+extension GestureCameraViewController : CAAnimationDelegate {
+    
+    func animate(thumbnail: UIImage?) {
+        
+        self.imageView.image = thumbnail
+        self.imageView.frame = self.previewLayer.frame
+        self.imageView.contentMode = .scaleAspectFill
+        
+        self.view.addSubview(imageView)
+        
+        UIView.animate(withDuration: 0.75, delay: 0.0, usingSpringWithDamping: 0.65, initialSpringVelocity: 0, options: .allowUserInteraction, animations: {
+            
+            self.imageView.frame = self.fsAlbumImageView.frame
+            
+        }) { (isCompleted) in
+            
+            self.fsAlbumImageView.image = thumbnail
+            self.imageView.removeFromSuperview()
+        }
+    }
+}
