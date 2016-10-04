@@ -10,10 +10,12 @@ import Foundation
 import Photos
 
 class FSPhotoAlbum: NSObject {
+    
     static let albumName = "FLLSCRN"
     static let sharedInstance = FSPhotoAlbum()
     
     var assetCollection: PHAssetCollection!
+//    var collection : PHFetchResult<PHAssetCollection>!
     
     override init() {
         super.init()
@@ -24,8 +26,8 @@ class FSPhotoAlbum: NSObject {
         }
         
         if PHPhotoLibrary.authorizationStatus() != PHAuthorizationStatus.authorized {
-            PHPhotoLibrary.requestAuthorization({ (status: PHAuthorizationStatus) -> Void in
-                status
+            PHPhotoLibrary.requestAuthorization({ (status : PHAuthorizationStatus) -> Void in
+                
             })
         }
         
@@ -59,8 +61,11 @@ class FSPhotoAlbum: NSObject {
     }
     
     func fetchAssetCollectionForAlbum() -> PHAssetCollection! {
+        
         let fetchOptions = PHFetchOptions()
+        
         fetchOptions.predicate = NSPredicate(format: "title = %@", FSPhotoAlbum.albumName)
+        
         let collection = PHAssetCollection.fetchAssetCollections(with: .album, subtype: .any, options: fetchOptions)
         
         if let _: AnyObject = collection.firstObject {
@@ -69,32 +74,55 @@ class FSPhotoAlbum: NSObject {
         return nil
     }
     
-    func fetchAssets(limit : Int) -> PHFetchResult<PHAsset> {
+    func fetchAssetCollectionsForAlbum() -> PHFetchResult<PHAssetCollection> {
+        
+        let fetchOptions = PHFetchOptions()
+        
+        fetchOptions.predicate = NSPredicate(format: "title = %@", FSPhotoAlbum.albumName)
+
+        return PHAssetCollection.fetchAssetCollections(with: .album, subtype: .any, options: fetchOptions)
+    }
+    
+    func fetchAssets(limit : Int, videos: Bool) -> PHFetchResult<PHAsset> {
+        
         let fetchOptions = PHFetchOptions()
         fetchOptions.fetchLimit = limit
         fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+        
+        if videos == false {
+            fetchOptions.predicate = NSPredicate(format: "mediaType = %li", PHAssetMediaType.image.rawValue)
+        }
+        
         return PHAsset.fetchAssets(in: self.assetCollection, options: fetchOptions)
     }
     
-    func getImages(count: Int, completion: @escaping ([UIImage?])->()) {
+    func getImages(count: Int, size: CGSize, videos: Bool, completion: @escaping ([UIImage?])->()) {
         
         var imageArray : [UIImage?] = []
-        let imageSize = CGSize(width: kCBottomBarHeight, height: kCBottomBarHeight)
+        let imageSize = size
         
         let imageManager = PHImageManager.default()
         let requestOptions = PHImageRequestOptions()
         requestOptions.deliveryMode = .highQualityFormat
+        requestOptions.isSynchronous = true
         
-        let fsImages = self.fetchAssets(limit: count)
+        let fsImages = self.fetchAssets(limit: count, videos: videos)
         
         if count == 1 {
 
             if let firstImageAsset = fsImages.firstObject {
                 
+//                print("Date created: \(firstImageAsset.creationDate!)")
+                
                 imageManager.requestImage(for: firstImageAsset, targetSize: imageSize, contentMode: .aspectFill, options: requestOptions, resultHandler: { (image, info) in
                     
+//                    if let isImageDegraded = info?[PHImageResultIsDegradedKey] as? Bool {
+//                        if !isImageDegraded {
+
                     imageArray.append(image)
                     completion(imageArray)
+//                        }
+//                    }
                 })
             }
         }
@@ -104,12 +132,19 @@ class FSPhotoAlbum: NSObject {
             
             fsImages.enumerateObjects({ (imageAsset, index, pointer) in
                 
+//                print("Date created: \(imageAsset.creationDate!)")
+                
                 dispatchGroup.enter()
                 
                 imageManager.requestImage(for: imageAsset, targetSize: imageSize, contentMode: .aspectFill, options: requestOptions, resultHandler: { (image, info) in
                     
+//                    if let isImageDegraded = info?[PHImageResultIsDegradedKey] as? Bool {
+//                        if !isImageDegraded {
+                    
                     imageArray.append(image)
                     dispatchGroup.leave()
+//                        }
+//                    }
                 })
             })
             
@@ -119,7 +154,7 @@ class FSPhotoAlbum: NSObject {
         }
     }
     
-    func saveImage(image: UIImage, metadata: NSDictionary, completion: @escaping (Bool, Error?)->()) {
+    func saveImage(image: UIImage, metadata: NSDictionary?, completion: @escaping (Bool, Error?)->()) {
         if assetCollection == nil {
             return                          // if there was an error upstream, skip the save
         }
@@ -174,6 +209,10 @@ class FSPhotoAlbum: NSObject {
             print("Error generating thumbnail: \(error)")
             return nil
         }
+    }
+    
+    func cropToBounds(image: UIImage, size: CGSize) -> UIImage {
+        return self.cropToBounds(image: image, width: size.width, height: size.height)
     }
     
     func cropToBounds(image: UIImage, width: CGFloat, height: CGFloat) -> UIImage {

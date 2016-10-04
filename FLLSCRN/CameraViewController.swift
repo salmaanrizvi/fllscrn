@@ -345,7 +345,7 @@ extension CameraViewController: AVCaptureFileOutputRecordingDelegate, AVCaptureV
         self.progressBarLayer = CAShapeLayer()
         self.progressBarLayer?.path = self.progressBarPath?.cgPath
         self.progressBarLayer?.lineWidth = 10.0
-        self.progressBarLayer?.strokeColor = UIColor.fllscrnRed().cgColor
+        self.progressBarLayer?.strokeColor = UIColor.fllscrnGreen().cgColor
         self.progressBarLayer?.fillColor = UIColor.clear.cgColor
         self.progressBarLayer?.actions = ["strokeStart" : NSNull(), "strokeEnd" : NSNull()]
         self.progressBarLayer?.strokeEnd = 0
@@ -882,7 +882,7 @@ extension CameraViewController {
         
         self.buttonCollection = KCFloatingActionButton(size: 55.0)
         
-        self.buttonCollection.buttonColor = UIColor.fllscrnRed()
+        self.buttonCollection.buttonColor = UIColor.fllscrnGreen()
         
         self.buttonCollection.plusColor = UIColor.white
         
@@ -911,7 +911,7 @@ extension CameraViewController {
                 
                 dealAlert = self.setUpDeal()
                 
-                dealAlert.showCustom("Add a Deal!\n", subTitle: "\nIndicate the deal and the number that can be redeemed below.\n", color: UIColor.fllscrnRed(), icon: whiteGift, closeButtonTitle: "Cancel", duration: 0.0, colorStyle: UIColor.fllscrnRed().colorCode(), colorTextButton: UIColor.white.colorCode(), circleIconImage: whiteGift, animationStyle: .topToBottom)
+                dealAlert.showCustom("Add a Deal!\n", subTitle: "\nIndicate the deal and the number that can be redeemed below.\n", color: UIColor.fllscrnGreen(), icon: whiteGift, closeButtonTitle: "Cancel", duration: 0.0, colorStyle: UIColor.fllscrnGreen().colorCode(), colorTextButton: UIColor.white.colorCode(), circleIconImage: whiteGift, animationStyle: .topToBottom)
             }
             self.checkButton(atPosition: 1)
 

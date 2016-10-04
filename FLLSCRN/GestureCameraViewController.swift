@@ -10,108 +10,143 @@ import UIKit
 import AVFoundation
 import Photos
 
-let kCThumbnailSize     : CGSize        = CGSize(width: kCBottomBarHeight - padding, height: kCBottomBarHeight - padding)
+let kCThumbnailSize     : CGSize        = CGSize(width: kCBottomBarHeight - kCDefaultPadding,
+                                                 height: kCBottomBarHeight - kCDefaultPadding)
 let kCTimeInterval      : TimeInterval  = 1 // second
 let kCBottomBarHeight   : CGFloat       = 100
-let padding             : CGFloat       = 15
+let kCDefaultPadding    : CGFloat       = 15
+
+let kCDefaultZoomRate   : Float         = 3.5
+let kCResetZoomRate     : Float         = 75.0
 
 class GestureCameraViewController: UIViewController {
 
     lazy var captureDevice: AVCaptureDevice = AVCaptureDevice()
     lazy var inputDevice: AVCaptureDeviceInput = AVCaptureDeviceInput()
     
-    lazy var outputData    : AVCaptureVideoDataOutput = AVCaptureVideoDataOutput()
-    lazy var movieFileOutput: AVCaptureMovieFileOutput = AVCaptureMovieFileOutput()
+    lazy var outputData         : AVCaptureVideoDataOutput = AVCaptureVideoDataOutput()
+    lazy var movieFileOutput    : AVCaptureMovieFileOutput = AVCaptureMovieFileOutput()
+    lazy var photoOutputData    : AVCapturePhotoOutput = AVCapturePhotoOutput()
     
     lazy var audioCaptureDevice : AVCaptureDevice = AVCaptureDevice()
     lazy var audioInputDevice: AVCaptureDeviceInput = AVCaptureDeviceInput()
     
     lazy var outputPath = NSTemporaryDirectory()
     
-    lazy var isVideo : Bool = true
+    lazy var isLocked : Bool = false
+    lazy var isVideo : Bool = false
     lazy var appendix : Int = 0
     lazy var isRecording : Bool = false
+    lazy var hasCapturedOne : Bool = false
+    lazy var photoCapture : Bool = false
     
     lazy var captureSession : AVCaptureSession = {
         let s = AVCaptureSession()
-        s.sessionPreset = self.isVideo ? AVCaptureSessionPreset1280x720 : AVCaptureSessionPresetPhoto
+        s.sessionPreset = !self.photoVideoSwitch.isOn ? AVCaptureSessionPreset1280x720 : AVCaptureSessionPresetPhoto
         return s
     }()
     
     lazy var previewLayer: AVCaptureVideoPreviewLayer = {
         let preview =  AVCaptureVideoPreviewLayer(session: self.captureSession)
-        preview?.bounds = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height - kCBottomBarHeight)
+        let topLayoutGuide = UIApplication.shared.statusBarFrame.height
+        preview?.bounds = CGRect(x: 0, y: 0, width: self.width, height: self.width)//self.height - topLayoutGuide * 2)
         preview?.position = CGPoint(x: self.view.bounds.midX, y: self.view.bounds.midY - kCBottomBarHeight / 2)
         preview?.videoGravity = AVLayerVideoGravityResizeAspectFill //AVLayerVideoGravityResize
         return preview!
     }()
     
-    // Side elastic constants
-    lazy var minimumWidth   : CGFloat       = 0.0
-    lazy var maxBaseWidth   : CGFloat       = 10.0
-    lazy var maxWaveHeight  : CGFloat       = 125.0
-    lazy var leftShapeLayer : CAShapeLayer  = CAShapeLayer()
+    var gestureView: BezierGestureView!
+
+    var videoTimer : Timer = Timer(timeInterval: kCTimeInterval, target: self, selector: #selector(updateVideoLabels), userInfo: nil, repeats: true)
     
-    lazy var l3ControlPointView = UIView()
-    lazy var l2ControlPointView = UIView()
-    lazy var l1ControlPointView = UIView()
-    lazy var cControlPointView  = UIView()
-    lazy var r1ControlPointView = UIView()
-    lazy var r2ControlPointView = UIView()
-    lazy var r3ControlPointView = UIView()
-    
-    lazy var displayLink : CADisplayLink = CADisplayLink(target: self, selector: #selector(updateShapeLayer))
-    var timer : Timer = Timer(timeInterval: kCTimeInterval, target: self, selector: #selector(updateLabels), userInfo: nil, repeats: true)
-    
-    var animating = false {
-        didSet {
-            self.view.isUserInteractionEnabled = !self.animating
-            self.displayLink.isPaused = !self.animating
-        }
-    }
-    
-    var height          : CGFloat { return self.view.bounds.height - kCBottomBarHeight }
-    var width           : CGFloat { return self.view.bounds.width }
-    var currentZoom     : CGFloat { return self.captureDevice.videoZoomFactor }
-    lazy var maxZoom    : CGFloat = self.captureDevice.activeFormat.videoMaxZoomFactor
-    lazy var videoDuration      : Int       = 0
-    var zoomText           : String { return NSString(format: "%0.1f", self.currentZoom) as String }    
+    var height             : CGFloat { return self.view.bounds.height - kCBottomBarHeight }
+    var width              : CGFloat { return self.view.bounds.width }
+    var currentZoom        : CGFloat { return self.captureDevice.videoZoomFactor }
+    lazy var maxZoom       : CGFloat = self.captureDevice.activeFormat.videoMaxZoomFactor
+    var zoomText           : String  { return NSString(format: "%0.1f", self.currentZoom) as String }
+    lazy var videoDuration : Int     = 0
     
     // UI
-    lazy var videoDurationLabel : UILabel   = UILabel()
-    lazy var zoomLabel          : UILabel   = UILabel()
-    lazy var fsAlbumImageView   : UIImageView = UIImageView()
-    lazy var imageView          : UIImageView = UIImageView(frame: self.previewLayer.frame)
+    lazy var videoDurationLabel : UILabel       = UILabel()
+    lazy var zoomLabel          : UILabel       = UILabel()
+    lazy var fsAlbumImageView   : UIImageView   = UIImageView()
+    lazy var animatedImageView  : UIImageView   = UIImageView()
     var thumbnail               : UIImage?
     
-    lazy var fsPhotoAlbum : FSPhotoAlbum = FSPhotoAlbum.sharedInstance
+    lazy var photoVideoSwitch   : UISwitch      = UISwitch()
+    lazy var flipCameraButton   : UIButton      = UIButton(type: .custom)
+    lazy var flashButton        : UIButton      = UIButton(type: .custom)
+    lazy var cameraButton       : UIButton      = UIButton(type: .custom)
+    lazy var videoButton        : UIButton      = UIButton(type: .custom)
+    
+    lazy var fsPhotoAlbum       : FSPhotoAlbum = FSPhotoAlbum.sharedInstance
+    
+    lazy var isoPicker          : AKPickerView = AKPickerView(frame: .zero)
+    lazy var shutterPicker      : AKPickerView = AKPickerView(frame: .zero)
+    lazy var isoLabel           : UILabel = UILabel()
+    lazy var shutterLabel       : UILabel = UILabel()
+    
+    var maxISO            : Float  { return self.captureDevice.activeFormat.maxISO }
+    var minISO            : Float  { return self.captureDevice.activeFormat.minISO }
+    var maxShutterSpeed   : CMTime { return self.captureDevice.activeFormat.maxExposureDuration }
+    var minShutterSpeed   : CMTime { return self.captureDevice.activeFormat.minExposureDuration }
+    
+    lazy var isoRange     : [Float]     = []
+    lazy var shutterRange : [CMTime]    = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        self.addGestures()
         self.loadVideoCamera()
         self.addAudioInputs()
+        self.view.layer.addSublayer(self.previewLayer)
+        
+        self.gestureView = BezierGestureView(frame: self.view.frame)
+        self.view.addSubview(self.gestureView)
+        self.gestureView.delegate = self
+        
         self.addAlbumView()
+        self.addCameraButtons()
+        
+        self.setupISOPicker()
+        self.setupShutterSpeedPicker()
+        self.didSwitch()
+        
+        self.captureSession.startRunning()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-
-        self.view.layer.addSublayer(self.previewLayer)
-        self.setupGestureViews()
         
-        self.captureSession.startRunning()
+        self.fsPhotoAlbum.getImages(count: 1, size: kCThumbnailSize, videos: true) { (imageArray) in
+            
+            let croppedImage = self.fsPhotoAlbum.cropToBounds(image: imageArray.first!!, width: kCBottomBarHeight, height: kCBottomBarHeight)
+            
+            DispatchQueue.main.async {
+                self.fsAlbumImageView.image = croppedImage
+                print("Set initial thumbnail image.")
+            }
+        }
     }
 
+    override func viewWillDisappear(_ animated: Bool) {
+        print("Not unlocking yet.")
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-    override var prefersStatusBarHidden : Bool { return true }
+//    override var prefersStatusBarHidden : Bool { return true }
 
+    override var preferredStatusBarStyle: UIStatusBarStyle { return .lightContent }
+    
     func loadVideoCamera() {
         
         self.captureDevice = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo)
@@ -126,24 +161,39 @@ class GestureCameraViewController: UIViewController {
             }
             
             self.outputData.videoSettings = [(kCVPixelBufferPixelFormatTypeKey as NSString) : NSNumber(value: kCVPixelFormatType_420YpCbCr8BiPlanarFullRange as UInt32)]
+            
+            self.outputData.videoSettings = [(kCVPixelBufferPixelFormatTypeKey as NSString)
+                                          : NSNumber(value: kCVPixelFormatType_32BGRA as UInt32)]
 
             self.outputData.alwaysDiscardsLateVideoFrames = true
             
             if self.captureSession.canAddOutput(self.outputData) {
                 self.captureSession.addOutput(self.outputData)
+                self.outputData.connection(withMediaType: AVMediaTypeVideo).videoOrientation = .portrait
             }
+
+//            if self.captureSession.canAddOutput(self.photoOutputData) {
+//                self.captureSession.addOutput(self.photoOutputData)
+//                self.photoOutputData.connection(withMediaType: AVMediaTypeVideo).videoOrientation = .portrait
+//                
+//                print("Available Photo Pixel Format Types: \(self.photoOutputData.availablePhotoPixelFormatTypes)")
+//                
+//                for formatType in self.photoOutputData.availablePhotoPixelFormatTypes {
+//                    print(formats[formatType])
+//                }
+//            }
             
-            if self.captureSession.canAddOutput(self.movieFileOutput) {
-                self.captureSession.addOutput(self.movieFileOutput)
-            }
+//            if self.captureSession.canAddOutput(self.movieFileOutput) {
+//                self.captureSession.addOutput(self.movieFileOutput)
+//                self.movieFileOutput.connection(withMediaType: AVMediaTypeVideo).videoOrientation = .portrait
+//                print("Added movie file output")
+//            }
             
-            self.movieFileOutput.connection(withMediaType: AVMediaTypeVideo).videoOrientation = .portrait
-//            self.movieFileOutput.movieFragmentInterval = kCMTimeInvalid
             
             self.captureSession.commitConfiguration()
             
-            let queue = DispatchQueue(label: "com.fllscrn.videoCapture", attributes: [])
-            self.outputData.setSampleBufferDelegate(self, queue: queue)
+            let videoQueue = DispatchQueue(label: "com.fllscrn.videoCapture", attributes: [])
+            self.outputData.setSampleBufferDelegate(self, queue: videoQueue)
         }
         catch let error as NSError {
             print("\(error), \(error.localizedDescription)")
@@ -177,23 +227,100 @@ class GestureCameraViewController: UIViewController {
         self.fsAlbumImageView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(self.fsAlbumImageView)
         
-        self.fsAlbumImageView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -padding).isActive = true
+        self.fsAlbumImageView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -kCDefaultPadding).isActive = true
         self.fsAlbumImageView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        self.fsAlbumImageView.heightAnchor.constraint(equalToConstant: kCBottomBarHeight - 2 * padding).isActive = true
+        self.fsAlbumImageView.heightAnchor.constraint(equalToConstant: kCBottomBarHeight - 2 * kCDefaultPadding).isActive = true
         self.fsAlbumImageView.widthAnchor.constraint(equalTo: self.fsAlbumImageView.heightAnchor).isActive = true
         
         self.fsAlbumImageView.backgroundColor = UIColor.darkGray
         self.fsAlbumImageView.contentMode = .scaleAspectFill
+        self.fsAlbumImageView.isUserInteractionEnabled = true
         
-        print("Album view frame: \(fsAlbumImageView.frame)")
+        let albumTap = UITapGestureRecognizer()
+        albumTap.delegate = self
+        albumTap.numberOfTapsRequired = 1
+        albumTap.addTarget(self, action: #selector(imageViewTapped))
+        self.fsAlbumImageView.addGestureRecognizer(albumTap)
+    }
+    
+    func addCameraButtons() {
         
-        self.fsPhotoAlbum.getImages(count: 1) { (imageArray) in
+        self.view.addSubview(self.photoVideoSwitch)
+        self.photoVideoSwitch.translatesAutoresizingMaskIntoConstraints = false
+        
+        self.photoVideoSwitch.centerYAnchor.constraint(equalTo: self.fsAlbumImageView.centerYAnchor).isActive = true
+        self.photoVideoSwitch.widthAnchor.constraint(equalTo: self.fsAlbumImageView.widthAnchor).isActive = true
+        self.photoVideoSwitch.centerXAnchor.constraint(equalTo: self.fsAlbumImageView.centerXAnchor, constant: self.width / 3).isActive = true
+        
+        self.photoVideoSwitch.isOn = true
+        self.photoVideoSwitch.tintColor = UIColor.fllscrnGreen()
+        self.photoVideoSwitch.onTintColor = UIColor.fllscrnPurple()
+        self.photoVideoSwitch.addTarget(self, action: #selector(didSwitch), for: .valueChanged)
+        
+        
+        self.view.addSubview(self.videoButton)
+        self.videoButton.translatesAutoresizingMaskIntoConstraints = false
+        self.videoButton.leadingAnchor.constraint(equalTo: self.fsAlbumImageView.trailingAnchor).isActive = true
+        self.videoButton.trailingAnchor.constraint(equalTo: self.photoVideoSwitch.leadingAnchor).isActive = true
+        self.videoButton.centerYAnchor.constraint(equalTo: self.fsAlbumImageView.centerYAnchor).isActive = true
+        self.videoButton.heightAnchor.constraint(equalTo: self.photoVideoSwitch.heightAnchor).isActive = true
+        
+        self.videoButton.setImage(whiteVideoCamera, for: .normal)
+        self.videoButton.setImage(greenVideoCamera, for: .disabled)
+        self.videoButton.isUserInteractionEnabled = false
+        self.videoButton.isEnabled = self.photoVideoSwitch.isOn
+        
+        
+        self.view.addSubview(self.cameraButton)
+        self.cameraButton.translatesAutoresizingMaskIntoConstraints = false
+        self.cameraButton.leadingAnchor.constraint(equalTo: self.photoVideoSwitch.trailingAnchor, constant: -10.0).isActive = true
+        self.cameraButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
+        self.cameraButton.centerYAnchor.constraint(equalTo: self.fsAlbumImageView.centerYAnchor).isActive = true
+        self.cameraButton.heightAnchor.constraint(equalTo: self.photoVideoSwitch.heightAnchor).isActive = true
+        
+        self.cameraButton.setImage(whiteCamera, for: .normal)
+        self.cameraButton.setImage(purpleCamera, for: .disabled)
+        self.cameraButton.isUserInteractionEnabled = false
+        self.cameraButton.isEnabled = !self.photoVideoSwitch.isOn
+    }
+    
+    func didSwitch() {
+        
+        self.cameraButton.isEnabled = !self.photoVideoSwitch.isOn
+        self.videoButton.isEnabled = self.photoVideoSwitch.isOn
+        
+        self.lockFor(device: self.photoVideoSwitch.isOn ? .photo : .video)
+        self.gestureView.rightEdgeGesture.isEnabled = self.photoVideoSwitch.isOn
+        self.gestureView.leftEdgeGesture.isEnabled = !self.photoVideoSwitch.isOn
+        
+        print("Min ISO: \(self.minISO)")
+        print("Max ISO: \(self.maxISO)")
+        print("Min Shutter Speed: \(self.minShutterSpeed)")
+        print("Max Shutter Speed: \(self.maxShutterSpeed)")
+        
+        self.updateISORange()
+        self.updateShutterRange()
+        
+        self.isoPicker.selectItem(0, animated: true)
+        self.shutterPicker.selectItem(0, animated: true)
+
+        if self.photoVideoSwitch.isOn {
+            self.isoPicker.highlightedTextColor = .fllscrnPurple()
+            self.shutterPicker.highlightedTextColor = .fllscrnPurple()
             
-            let croppedImage = self.fsPhotoAlbum.cropToBounds(image: imageArray.first!!, width: kCBottomBarHeight, height: kCBottomBarHeight)
-            
-            DispatchQueue.main.async { self.fsAlbumImageView.image = croppedImage }
-            
+            self.isoLabel.textColor = .fllscrnPurple()
+            self.shutterLabel.textColor = .fllscrnPurple()
         }
+        else {
+            self.isoPicker.highlightedTextColor = .fllscrnGreen()
+            self.shutterPicker.highlightedTextColor = .fllscrnGreen()
+            
+            self.isoLabel.textColor = .fllscrnGreen()
+            self.shutterLabel.textColor = .fllscrnGreen()
+        }
+        
+        self.isoPicker.reloadData()
+        self.shutterPicker.reloadData()
     }
 }
 
@@ -213,172 +340,127 @@ extension GestureCameraViewController : AVCaptureFileOutputRecordingDelegate, AV
                 
                 print("Saved video.")
                 
-                DispatchQueue.main.async {
-                    self.thumbnail = self.fsPhotoAlbum.generateThumbnailFrom(filePath: outputFileURL)
-                    self.animate(thumbnail: self.thumbnail)
-                }
+                self.thumbnail = self.fsPhotoAlbum.generateThumbnailFrom(filePath: outputFileURL)
+                
+                self.animate(thumbnail: self.thumbnail)
             }
         }
         
-        self.timer.invalidate()
+        self.videoTimer.invalidate()
         self.isRecording = false
         self.videoDuration = 0
-        self.videoDurationLabel.text = "0s"
-        self.zoomLabel.text = "1.0x"
+        self.gestureView.videoDurationLabel.text = "0s"
+        self.gestureView.videoZoomLabel.text = "1.0x"
     }
     
     func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, from connection: AVCaptureConnection!) {
         
-    }
-}
-
-extension GestureCameraViewController : UIGestureRecognizerDelegate {
-    
-    func setupGestureViews() {
-        self.leftShapeLayer.frame = CGRect(x: 0.0, y: 0.0, width: self.minimumWidth, height: self.view.bounds.height)
-        self.leftShapeLayer.fillColor = UIColor.fllscrnRed().cgColor
-        self.leftShapeLayer.actions = ["position" : NSNull(), "bounds" : NSNull(), "path" : NSNull()]
-        
-        self.view.layer.addSublayer(self.leftShapeLayer)
-        
-        self.l3ControlPointView.frame = CGRect(x: 0.0, y: 0.0, width: 3.0, height: 3.0)
-        self.l2ControlPointView.frame = CGRect(x: 0.0, y: 0.0, width: 3.0, height: 3.0)
-        self.l1ControlPointView.frame = CGRect(x: 0.0, y: 0.0, width: 3.0, height: 3.0)
-        self.cControlPointView.frame  = CGRect(x: 0.0, y: 0.0, width: 3.0, height: 3.0)
-        self.r1ControlPointView.frame = CGRect(x: 0.0, y: 0.0, width: 3.0, height: 3.0)
-        self.r2ControlPointView.frame = CGRect(x: 0.0, y: 0.0, width: 3.0, height: 3.0)
-        self.r3ControlPointView.frame = CGRect(x: 0.0, y: 0.0, width: 3.0, height: 3.0)
-        self.videoDurationLabel.frame = CGRect(x: 0.0, y: 0.0, width: 50.0, height: 25.0)
-        self.zoomLabel.frame = CGRect(x: 0.0, y: 0.0, width: 50.0, height: 25.0)
-        
-        self.l3ControlPointView.backgroundColor = .red
-        self.l2ControlPointView.backgroundColor = .red
-        self.l1ControlPointView.backgroundColor = .red
-        self.cControlPointView.backgroundColor = .red
-        self.r1ControlPointView.backgroundColor = .red
-        self.r2ControlPointView.backgroundColor = .red
-        self.r3ControlPointView.backgroundColor = .red
-        
-        self.videoDurationLabel.adjustsFontSizeToFitWidth = true
-        self.videoDurationLabel.text = "0s"
-        self.videoDurationLabel.textColor = UIColor.white
-        self.videoDurationLabel.font = UIFont.fllscrnFont(20.0)
-        self.videoDurationLabel.textAlignment = .right
-        
-        self.zoomLabel.adjustsFontSizeToFitWidth = true
-        self.zoomLabel.text = "1.0x"
-        self.zoomLabel.textColor = UIColor.white
-        self.zoomLabel.font = UIFont.fllscrnFont(16.0)
-        self.zoomLabel.textAlignment = .right
-        
-        self.view.addSubview(self.l3ControlPointView)
-        self.view.addSubview(self.l2ControlPointView)
-        self.view.addSubview(self.l1ControlPointView)
-        self.view.addSubview(self.cControlPointView)
-        self.view.addSubview(self.r1ControlPointView)
-        self.view.addSubview(self.r2ControlPointView)
-        self.view.addSubview(self.r3ControlPointView)
-        self.view.addSubview(self.videoDurationLabel)
-        self.view.addSubview(self.zoomLabel)
-        
-        self.layoutControlPoints(baseWidth: self.minimumWidth, waveWidth: 0.0, locationY: self.height / 2.0)
-        
-        self.videoDurationLabel.center.x = self.minimumWidth - self.videoDurationLabel.right.x
-        self.zoomLabel.center.x = self.minimumWidth - self.zoomLabel.right.x
-        
-        self.updateShapeLayer()
-        
-        self.displayLink.add(to: .main, forMode: .defaultRunLoopMode)
-        displayLink.isPaused = true
-    }
-    
-    func addGestures() {
-        
-        let videoSwipeGesture = UIScreenEdgePanGestureRecognizer()
-        videoSwipeGesture.accessibilityLabel = "video"
-        videoSwipeGesture.edges = .left
-        videoSwipeGesture.delegate = self
-        videoSwipeGesture.maximumNumberOfTouches = 2
-        videoSwipeGesture.addTarget(self, action: #selector(recordFrom))
-        self.view.addGestureRecognizer(videoSwipeGesture)
-        
-        let photoSwipeGesture = UIScreenEdgePanGestureRecognizer()
-        photoSwipeGesture.accessibilityLabel = "photo"
-        photoSwipeGesture.edges = .right
-        photoSwipeGesture.delegate = self
-        photoSwipeGesture.maximumNumberOfTouches = 2
-        photoSwipeGesture.addTarget(self, action: #selector(recordFrom))
-        self.view.addGestureRecognizer(photoSwipeGesture)
-    }
-    
-    func recordFrom(gesture : UIScreenEdgePanGestureRecognizer) {
-        
-        if gesture.accessibilityLabel == "video" {
-
-            if gesture.state == .ended || gesture.state == .cancelled || gesture.state == .failed {
-                
-                if self.isRecording { self.movieFileOutput.stopRecording() }
-                self.zoom(to: 1.0, withRate: 75.0)
-                self.captureDevice.unlockForConfiguration()
-                self.animating = true
-                
-                UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.0, options: [], animations: { 
+        if isRecording == true && hasCapturedOne == false {
             
-                    self.l3ControlPointView.center.x = self.minimumWidth
-                    self.l2ControlPointView.center.x = self.minimumWidth
-                    self.l1ControlPointView.center.x = self.minimumWidth
-                    self.cControlPointView.center.x  = self.minimumWidth
-                    self.r1ControlPointView.center.x = self.minimumWidth
-                    self.r2ControlPointView.center.x = self.minimumWidth
-                    self.r3ControlPointView.center.x = self.minimumWidth
-                    self.videoDurationLabel.center.x = self.minimumWidth - self.videoDurationLabel.right.x
-                    self.zoomLabel.center.x = self.minimumWidth - self.zoomLabel.right.x
+            guard let resultUIImage = self.imageFromSampleBuffer(sampleBuffer) else {
+                print("Couldn't unwrap resulting UIImage from sample buffer.")
+                return
+            }
+            
+            self.hasCapturedOne = true
+            
+            self.fsPhotoAlbum.saveImage(image: resultUIImage, metadata: nil, completion: { (isComplete, error) in
+                
+                if let error = error { print(error.localizedDescription) }
+                else if isComplete {
                     
-                    }, completion: { (completed) in
-                        
-                        self.animating = false
-                        self.leftShapeLayer.fillColor = UIColor.fllscrnRed().cgColor
-                })
-            }
-            else {
-                
-//                if !self.isRecording {
-//                    _ = self.recordVideoToFile()
-//                    self.isRecording = true
-//                    self.lockDevice()
-//                }
-                self.lockDevice()
-                
-                let additionalHeight = max(gesture.translation(in: view).x, 0)
-                
-                let waveWidth = min(additionalHeight * 0.95, self.maxWaveHeight)
-                let baseWidth = min(self.minimumWidth + additionalHeight - waveWidth, self.maxBaseWidth)
-                
-                let locationY = gesture.location(in: gesture.view).y
-                
-                if baseWidth == self.maxBaseWidth && !self.isRecording {
-                    _ = self.recordVideoToFile()
-                    self.isRecording = true
-                    self.leftShapeLayer.fillColor = UIColor.fllscrnRed(alpha: 0.2).cgColor
+                    print("Saved photo.")
+                    self.hasCapturedOne = false
+                    let thumbnail = self.fsPhotoAlbum.cropToBounds(image: resultUIImage, size: kCThumbnailSize)
+                    self.animate(thumbnail: thumbnail)
                 }
-                else if !self.isRecording { self.updateAlpha(to: baseWidth / self.maxBaseWidth) }
-                
-                self.layoutControlPoints(baseWidth: baseWidth, waveWidth: waveWidth, locationY: locationY)
-                self.updateShapeLayer()
-//                self.updateAlpha(to: baseWidth/self.maxBaseWidth)
-                
-                let zoomFactor = gesture.translation(in: view).y/self.height
-
-                if abs(zoomFactor) > 0.035 {
-                    self.zoom(to: zoomFactor, withRate: 3.5)
-                }
-                else {
-                    self.zoom(to: 1.0, withRate: 3.5)
-                }
-            }
+            })
         }
     }
     
+    func imageFromSampleBuffer(_ sampleBuffer: CMSampleBuffer) -> UIImage? {
+        
+        if let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) {
+            
+            CVPixelBufferLockBaseAddress(imageBuffer, CVPixelBufferLockFlags(rawValue: CVOptionFlags(0)))
+            let baseAddress = CVPixelBufferGetBaseAddress(imageBuffer)
+            let bytesPerRow = CVPixelBufferGetBytesPerRow(imageBuffer)
+            let width = CVPixelBufferGetWidth(imageBuffer)
+//            let height = CVPixelBufferGetHeight(imageBuffer)
+            let colorSpace = CGColorSpaceCreateDeviceRGB()
+            
+            guard let context = CGContext(data: baseAddress, width: width, height: width, bitsPerComponent: 8,bytesPerRow: bytesPerRow, space: colorSpace, bitmapInfo: CGBitmapInfo.byteOrder32Little.rawValue | CGImageAlphaInfo.premultipliedFirst.rawValue) else {
+                print("Couldn't create context for image.")
+                return nil
+            }
+
+            let quartzImage = context.makeImage()
+            CVPixelBufferUnlockBaseAddress(imageBuffer, CVPixelBufferLockFlags(rawValue: CVOptionFlags(0)))
+            
+            if let quartzImage = quartzImage {
+                let image = UIImage(cgImage: quartzImage)
+                return image
+            }
+        }
+        return nil
+    }
+}
+
+extension GestureCameraViewController : AVCapturePhotoCaptureDelegate {
+
+    func capture(_ captureOutput: AVCapturePhotoOutput, willBeginCaptureForResolvedSettings resolvedSettings: AVCaptureResolvedPhotoSettings) {
+        print("will begin CaptureForResolvedSettings")
+    }
+    
+    func capture(_ captureOutput: AVCapturePhotoOutput, willCapturePhotoForResolvedSettings resolvedSettings: AVCaptureResolvedPhotoSettings) {
+        print("will capture PhotoForResolvedSettings")
+    }
+    
+    func capture(_ captureOutput: AVCapturePhotoOutput, didCapturePhotoForResolvedSettings resolvedSettings: AVCaptureResolvedPhotoSettings) {
+        print("did capture PhotoForResolvedSettings")
+    }
+    
+    func capture(_ captureOutput: AVCapturePhotoOutput, didFinishProcessingPhotoSampleBuffer photoSampleBuffer: CMSampleBuffer?, previewPhotoSampleBuffer: CMSampleBuffer?, resolvedSettings: AVCaptureResolvedPhotoSettings, bracketSettings: AVCaptureBracketedStillImageSettings?, error: Error?) {
+        
+        if let error = error {
+            print("Error in capturing output. \(error.localizedDescription)")
+            self.photoCapture = false
+            return
+        }
+        
+        print("did finish ProcessPhotoSampleBuffer")
+        
+        guard let photoSampleBuffer = photoSampleBuffer, let resultUIImage = self.imageFromSampleBuffer(photoSampleBuffer) else {
+            print("Couldn't unwrap resulting UIImage from sample buffer.")
+            self.photoCapture = false
+            return
+        }
+        
+        self.photoCapture = false
+        
+        self.fsPhotoAlbum.saveImage(image: resultUIImage, metadata: nil, completion: { (isComplete, error) in
+            
+            if let error = error { print(error.localizedDescription) }
+            else if isComplete {
+                
+                print("Saved photo.")
+                let thumbnail = self.fsPhotoAlbum.cropToBounds(image: resultUIImage, size: kCThumbnailSize)
+                self.animate(thumbnail: thumbnail)
+            }
+        })
+    }
+    
+    func capture(_ captureOutput: AVCapturePhotoOutput, didFinishCaptureForResolvedSettings resolvedSettings: AVCaptureResolvedPhotoSettings, error: Error?) {
+        print("did finish CaptureForResolvedSettings")
+        print("Settings: \(resolvedSettings)")
+    }
+}
+
+
+// Image and Video Recording Functions 
+
+extension GestureCameraViewController : UIGestureRecognizerDelegate {
+
     fileprivate func recordVideoToFile() -> URL {
         
         let outputFilePath = self.outputPath + "output-\(self.appendix).mov"
@@ -397,107 +479,348 @@ extension GestureCameraViewController : UIGestureRecognizerDelegate {
         return outputURL
     }
     
-    fileprivate func currentPath() -> CGPath {
-        
-        let bezierPath = UIBezierPath()
-        
-        bezierPath.move(to: CGPoint(x: 0.0, y: 0.0))
-        
-        bezierPath.addLine(to: CGPoint(x: l3ControlPointView.dg_center(usePresentationLayerIfPossible: self.animating).x, y: 0.0))
-        
-        bezierPath.addCurve(to: l1ControlPointView.dg_center(usePresentationLayerIfPossible: self.animating), controlPoint1: l3ControlPointView.dg_center(usePresentationLayerIfPossible: self.animating), controlPoint2: l2ControlPointView.dg_center(usePresentationLayerIfPossible: self.animating))
-        
-        bezierPath.addCurve(to: r1ControlPointView.dg_center(usePresentationLayerIfPossible: self.animating), controlPoint1: cControlPointView.dg_center(usePresentationLayerIfPossible: self.animating), controlPoint2: r1ControlPointView.dg_center(usePresentationLayerIfPossible: self.animating))
-        
-        bezierPath.addCurve(to: r3ControlPointView.dg_center(usePresentationLayerIfPossible: self.animating), controlPoint1: r1ControlPointView.dg_center(usePresentationLayerIfPossible: self.animating), controlPoint2: r2ControlPointView.dg_center(usePresentationLayerIfPossible: self.animating))
-        
-        bezierPath.addLine(to: CGPoint(x: 0.0, y: height))
-        
-        bezierPath.close()
-        
-        return bezierPath.cgPath
-    }
-    
-    func updateShapeLayer() {
-        self.leftShapeLayer.path = self.currentPath()
-        self.zoomLabel.text = "\(self.zoomText)x"
-    }
-    
     func startTimer() {
-        self.timer = Timer(timeInterval: kCTimeInterval, target: self, selector: #selector(updateLabels), userInfo: nil, repeats: true)
-        RunLoop.current.add(self.timer, forMode: .defaultRunLoopMode)
+        self.videoTimer = Timer(timeInterval: kCTimeInterval, target: self, selector: #selector(updateVideoLabels), userInfo: nil, repeats: true)
+        RunLoop.current.add(self.videoTimer, forMode: .defaultRunLoopMode)
     }
     
-    func updateLabels() {
+    func updateVideoLabels() {
         self.videoDuration += Int(kCTimeInterval)
-        self.videoDurationLabel.text = "\(self.videoDuration)s"
+        self.gestureView.videoDurationLabel.text = "\(self.videoDuration)s"
     }
     
-    func updateAlpha(to percent: CGFloat) {
-        self.leftShapeLayer.fillColor = UIColor.fllscrnRed(alpha: max(1 - percent, 0.6)).cgColor
-    }
+//    func updateAlpha(to percent: CGFloat) {
+//        self.leftShapeLayer.fillColor = UIColor.fllscrnGreen(alpha: max(1 - percent, 0.6)).cgColor
+//    }
     
-    func lockDevice() {
-        do {
-            try self.captureDevice.lockForConfiguration()
+    func lockFor(device: BezierGestureViewStyle) {
+        
+        if self.isLocked == false {
+            
+            do {
+                try self.captureDevice.lockForConfiguration()
+                self.isLocked = true
+            }
+            catch let error as NSError {
+                print("Error locking device: \(error.localizedDescription))")
+                return
+            }
         }
-        catch let error as NSError {
-            print("Error locking device: \(error.localizedDescription))")
+        
+        self.captureSession.beginConfiguration()
+        
+        switch device {
+        case .photo:
+//            print("Locking for photo.")
+            self.captureSession.sessionPreset = AVCaptureSessionPresetPhoto
+            
+            self.captureSession.removeOutput(self.movieFileOutput)
+            
+            if self.captureSession.canAddOutput(self.outputData) {
+                self.captureSession.addOutput(self.outputData)
+                self.outputData.connection(withMediaType: AVMediaTypeVideo).videoOrientation = .portrait
+                print("Added photo output data.")
+            }
+            
+        case .video:
+//            print("Locking for video.")
+            self.captureSession.sessionPreset = AVCaptureSessionPreset1280x720
+            
+            self.captureSession.removeOutput(self.outputData)
+            
+            if self.captureSession.canAddOutput(self.movieFileOutput) {
+                self.captureSession.addOutput(self.movieFileOutput)
+                self.movieFileOutput.connection(withMediaType: AVMediaTypeVideo).videoOrientation = .portrait
+                print("Added movie file output.")
+            }
         }
+        
+        self.captureSession.commitConfiguration()
     }
-    
-    fileprivate func layoutControlPoints(baseWidth: CGFloat, waveWidth: CGFloat, locationY: CGFloat) {
-        
-        let minTopY = min((locationY - height / 2.0) * 0.28, 0.0)
-        let maxBottomY = height // max(height + (locationY - height / 2.0) * 0.28, height)
-        
-        let topPartWidth = locationY - minTopY
-        let bottomPartWidth = maxBottomY - locationY
-        
-//        print("minTopY: \(minTopY)")
-//        print("maxBottomY: \(maxBottomY)")
-//        print("topPartWidth: \(topPartWidth)")
-//        print("bottomPartWidth: \(bottomPartWidth)")
-        
-        self.l3ControlPointView.center = CGPoint(x: baseWidth, y: minTopY)
-        self.l2ControlPointView.center = CGPoint(x: baseWidth, y: minTopY + topPartWidth * 0.44)
-        self.l1ControlPointView.center = CGPoint(x: baseWidth + waveWidth * 0.64, y: minTopY + topPartWidth * 0.71)
-        self.cControlPointView.center  = CGPoint(x: baseWidth + waveWidth * 1.36, y: locationY)
-        self.r1ControlPointView.center = CGPoint(x: baseWidth + waveWidth * 0.64, y: maxBottomY - bottomPartWidth * 0.71)
-        self.r2ControlPointView.center = CGPoint(x: baseWidth, y: maxBottomY - (bottomPartWidth * 0.44))
-        self.r3ControlPointView.center = CGPoint(x: baseWidth, y: maxBottomY)
-        
-        self.videoDurationLabel.center = CGPoint(x: baseWidth + waveWidth * 0.6, y: locationY - self.videoDurationLabel.bounds.height)
-        self.zoomLabel.center = CGPoint(x: self.videoDurationLabel.center.x, y: self.videoDurationLabel.center.y + self.zoomLabel.bounds.height)
-    }
-    
+
     // zoom to percent of total zoom capable for device.
     fileprivate func zoom(to zoomFactor: CGFloat, withRate rate: Float) {
         
-        let zoom = min(self.maxZoom, max(1, 1 - 10 * zoomFactor))
+        let zoomScale = zoomFactor/self.height
+        let zoom : CGFloat
+        
+        if abs(zoomScale) > 0.035 {
+            zoom = min(self.maxZoom, max(1, 1 - 10 * zoomScale))
+        }
+        else {
+            zoom = 1.0
+        }
+        
         self.captureDevice.ramp(toVideoZoomFactor: zoom, withRate: rate)
+    }
+    
+    func imageViewTapped() {
+        if let parentVC = self.parent as? MainPageViewController {
+            parentVC.navigateTo(fsViewController: .photos, direction: .forward)
+        }
     }
 }
 
 // Animations
-extension GestureCameraViewController : CAAnimationDelegate {
+extension GestureCameraViewController {
     
+    /*
+     *  Dispatched on the main queue asynchronously
+     */
     func animate(thumbnail: UIImage?) {
         
-        self.imageView.image = thumbnail
-        self.imageView.frame = self.previewLayer.frame
-        self.imageView.contentMode = .scaleAspectFill
-        
-        self.view.addSubview(imageView)
-        
-        UIView.animate(withDuration: 0.75, delay: 0.0, usingSpringWithDamping: 0.65, initialSpringVelocity: 0, options: .allowUserInteraction, animations: {
+        DispatchQueue.main.async {
             
-            self.imageView.frame = self.fsAlbumImageView.frame
+            self.animatedImageView.image = thumbnail
+            let albumViewOrigin = CGPoint(x: self.fsAlbumImageView.frame.midX, y: self.fsAlbumImageView.frame.midY)
+            self.animatedImageView.frame = CGRect(origin: albumViewOrigin, size: CGSize.zero)
+            self.animatedImageView.contentMode = .scaleAspectFill
             
-        }) { (isCompleted) in
+            self.view.addSubview(self.animatedImageView)
             
-            self.fsAlbumImageView.image = thumbnail
-            self.imageView.removeFromSuperview()
+            UIView.animate(withDuration: 0.6, delay: 0.0, usingSpringWithDamping: 0.3, initialSpringVelocity: 0, options: .allowUserInteraction, animations: {
+                
+                self.animatedImageView.frame = self.fsAlbumImageView.frame
+                
+            }) { (isCompleted) in
+                
+                self.fsAlbumImageView.image = thumbnail
+                self.animatedImageView.removeFromSuperview()
+            }
         }
+    }
+}
+
+extension GestureCameraViewController : BezierGestureViewDelegate {
+    
+    func gestureViewTarget(gesture: UIScreenEdgePanGestureRecognizer, baseWidth : CGFloat) {
+        
+        if gesture.state == .ended || gesture.state == .cancelled || gesture.state == .failed {
+            
+            if gesture == self.gestureView.leftEdgeGesture {
+                
+                // call video end functions
+                self.videoGestureFinished()
+            }
+            else {
+                
+                // call photo end functions
+                self.photoGestureFinished()
+            }
+        }
+        else {
+            
+            if gesture == self.gestureView.leftEdgeGesture {
+                
+                // call video start functions
+                self.videoGesture(gesture: gesture, baseWidth: baseWidth)
+            }
+            else {
+                
+                // call photo start functions
+                self.photoGesture(gesture: gesture, baseWidth: baseWidth)
+            }
+        }
+    }
+    
+    func videoGestureFinished() {
+        
+        if self.isRecording { self.movieFileOutput.stopRecording() }
+        
+        self.zoom(to: 1.0, withRate: kCResetZoomRate)
+//        self.captureDevice.unlockForConfiguration()
+//        self.isLocked = false
+    }
+    
+    func videoGesture(gesture: UIScreenEdgePanGestureRecognizer, baseWidth : CGFloat) {
+        
+//        self.lockFor(device: .video)
+        
+        if baseWidth == kCMaxBaseWidth && !self.isRecording {
+//            self.captureSession.sessionPreset = AVCaptureSessionPreset1280x720
+            _ = self.recordVideoToFile()
+            self.isRecording = true
+        }
+        
+        let zoomFactor = gesture.translation(in: view).y
+        self.zoom(to: zoomFactor, withRate: kCDefaultZoomRate)
+        self.gestureView.videoZoomLabel.text = "\(self.zoomText)x"
+    }
+    
+    func photoGestureFinished() {
+        self.zoom(to: 1.0, withRate: kCResetZoomRate)
+//        self.captureDevice.unlockForConfiguration()
+//        self.isLocked = false
+        self.isRecording = false
+        self.hasCapturedOne = false
+    }
+    
+    func photoGesture(gesture: UIScreenEdgePanGestureRecognizer, baseWidth: CGFloat) {
+
+//        self.captureSession.sessionPreset = AVCaptureSessionPresetPhoto
+//
+//        self.lockFor(device: .photo)
+        
+        if baseWidth == kCMaxBaseWidth && self.isRecording == false {
+            // begin taking photos
+            self.isRecording = true
+        }
+        else if baseWidth < kCMaxBaseWidth {
+            self.isRecording = false
+            let zoomFactor = gesture.translation(in: view).y
+            self.zoom(to: zoomFactor, withRate: kCDefaultZoomRate)
+            self.gestureView.photoZoomLabel.text = "\(self.zoomText)x"
+        }
+        
+//        if baseWidth == kCMaxBaseWidth && self.photoCapture == false {
+//            let previewFormat = [(kCVPixelBufferPixelFormatTypeKey as String)
+//                                : NSNumber(value: kCVPixelFormatType_32BGRA as UInt32)]
+//            let photoCaptureSettings = AVCapturePhotoSettings(format: previewFormat)
+//            
+//            self.photoOutputData.capturePhoto(with: photoCaptureSettings, delegate: self)
+//            self.photoCapture = true
+//        }
+    }
+}
+
+extension GestureCameraViewController : AKPickerViewDelegate, AKPickerViewDataSource {
+    
+    func updateISORange() {
+        
+        let roundedMinISO = 50.0 * ceil((self.minISO / 50.0))
+        let roundedMaxISO = 50.0 * floor((self.maxISO / 50.0))
+        let sections = (roundedMaxISO - roundedMinISO) / 100
+        var isoArray : [Float] = []
+        var i : Float = 0.0
+        
+        while i <= sections {
+            isoArray.append(roundedMinISO + 100*i)
+            i += 1
+        }
+        self.isoRange = isoArray
+    }
+    
+    func updateShutterRange() {
+
+        let minTimeScale : CMTimeScale = CMTimeScale(1.0/self.minShutterSpeed.seconds)
+        print("Min time scale: \(minTimeScale)")
+//        let minShutterSpeed = self.minShutterSpeed.convertScale(minTimeScale, method: .quickTime)
+        
+        var shutterArray : [CMTime] = []
+        let one : CMTimeValue = 1
+        
+        var timeScale : CMTimeScale = minTimeScale
+        
+        while timeScale >= self.maxShutterSpeed.timescale {
+            
+            let shutterSpeed = CMTime(value: one, timescale: timeScale)
+            shutterArray.append(shutterSpeed)
+            timeScale /= 2
+        }
+        
+        self.shutterRange = shutterArray
+    }
+    
+    func setupISOPicker() {
+        
+        self.isoLabel.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(self.isoLabel)
+        
+        self.isoLabel.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: labelWidthMultiple).isActive = true
+        self.isoLabel.heightAnchor.constraint(equalToConstant: kCBottomBarHeight / 2).isActive = true
+        self.isoLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
+        self.isoLabel.bottomAnchor.constraint(equalTo: self.fsAlbumImageView.topAnchor).isActive = true
+        
+        self.isoLabel.text = "ISO"
+        self.isoLabel.font = UIFont.fllscrnFontBold(14.0)
+        self.isoLabel.textAlignment = .center
+        self.isoLabel.textColor = self.photoVideoSwitch.isOn
+                           ? .fllscrnPurple() : .fllscrnGreen()
+        
+        self.isoPicker.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(self.isoPicker)
+        
+        self.isoPicker.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        self.isoPicker.heightAnchor.constraint(equalTo: self.isoLabel.heightAnchor).isActive = true
+        self.isoPicker.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.75).isActive = true
+        self.isoPicker.bottomAnchor.constraint(equalTo: self.isoLabel.bottomAnchor).isActive = true
+        
+        self.isoPicker.delegate = self
+        self.isoPicker.dataSource = self
+        self.isoPicker.font = UIFont.fllscrnFont(14.0)
+        self.isoPicker.pickerViewStyle = .wheel
+        self.isoPicker.textColor = UIColor.white
+        self.isoPicker.highlightedTextColor = self.photoVideoSwitch.isOn
+                                            ? .fllscrnPurple() : .fllscrnGreen()
+        self.isoPicker.interitemSpacing = 15.0
+        self.isoPicker.maskDisabled = false
+        self.isoPicker.reloadData()
+    }
+    
+    func setupShutterSpeedPicker() {
+        
+        self.shutterLabel.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(self.shutterLabel)
+        
+        self.shutterLabel.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: labelWidthMultiple).isActive = true
+        self.shutterLabel.heightAnchor.constraint(equalToConstant: kCBottomBarHeight / 2).isActive = true
+        self.shutterLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
+        self.shutterLabel.bottomAnchor.constraint(equalTo: self.isoPicker.topAnchor).isActive = true
+        
+        self.shutterLabel.text = "Tv"
+        self.shutterLabel.font = UIFont.fllscrnFontBold(14.0)
+        self.shutterLabel.textAlignment = .center
+        self.shutterLabel.textColor = self.photoVideoSwitch.isOn
+                               ? .fllscrnPurple() : .fllscrnGreen()
+        
+        self.shutterPicker.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(self.shutterPicker)
+        
+        self.shutterPicker.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        self.shutterPicker.heightAnchor.constraint(equalTo: self.shutterLabel.heightAnchor).isActive = true
+        self.shutterPicker.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.75).isActive = true
+        self.shutterPicker.bottomAnchor.constraint(equalTo: self.shutterLabel.bottomAnchor).isActive = true
+        
+        self.shutterPicker.delegate = self
+        self.shutterPicker.dataSource = self
+        self.shutterPicker.font = UIFont.fllscrnFont(14.0)
+        self.shutterPicker.pickerViewStyle = .wheel
+        self.shutterPicker.textColor = UIColor.white
+        self.shutterPicker.highlightedTextColor = self.photoVideoSwitch.isOn
+                                                ? .fllscrnPurple() : .fllscrnGreen()
+        self.shutterPicker.interitemSpacing = 10.0
+        self.shutterPicker.maskDisabled = false
+        self.shutterPicker.reloadData()
+    }
+    
+    func numberOfItemsInPickerView(_ pickerView: AKPickerView) -> Int {
+        return pickerView == self.isoPicker ? isoRange.count : shutterRange.count
+    }
+    
+    func pickerView(_ pickerView: AKPickerView, titleForItem item: Int) -> String {
+        
+        if pickerView == self.isoPicker {
+            return "\(Int(self.isoRange[item]))"
+        }
+        else {
+            let shutterSpeed = self.shutterRange[item]
+            return "\(Int(shutterSpeed.value)) / \(shutterSpeed.timescale)"
+        }
+    }
+    
+    func pickerView(_ pickerView: AKPickerView, didSelectItem item: Int) {
+        
+        self.isoPicker.isUserInteractionEnabled = false
+        self.shutterPicker.isUserInteractionEnabled = false
+        
+        let shutterSpeed : CMTime = self.shutterRange[self.shutterPicker.selectedItem]
+        let iso          : Float = self.isoRange[self.isoPicker.selectedItem]
+        
+        self.captureDevice.setExposureModeCustomWithDuration(shutterSpeed, iso: iso, completionHandler: { (time) -> Void in
+            
+            print("Set shutter speed: \(Int(shutterSpeed.value)) / \(shutterSpeed.timescale)\nISO: \(iso)")
+            self.isoPicker.isUserInteractionEnabled = true
+            self.shutterPicker.isUserInteractionEnabled = true
+        })
     }
 }

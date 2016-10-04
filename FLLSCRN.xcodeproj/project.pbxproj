@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		5F9C9DB5E6EA6E1E169D7D88 /* Pods_FLLSCRN.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 941354E2CC44D5FF68A5D620 /* Pods_FLLSCRN.framework */; };
+		7B2D8B7F1DA1DB100030C686 /* FLSCNImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B2D8B7C1DA1DB100030C686 /* FLSCNImageViewController.m */; };
+		7B2D8B801DA1DB100030C686 /* FLSCNImagePanScrollbarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B2D8B7E1DA1DB100030C686 /* FLSCNImagePanScrollbarView.m */; };
+		7B2D8B831DA1DBE40030C686 /* Interactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B2D8B811DA1DBE40030C686 /* Interactor.swift */; };
+		7B2D8B841DA1DBE40030C686 /* DismissAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B2D8B821DA1DBE40030C686 /* DismissAnimator.swift */; };
 		7B7B0B8D1D89D58E007E3820 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7B0B8C1D89D58E007E3820 /* AppDelegate.swift */; };
 		7B7B0B921D89D58E007E3820 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7B7B0B901D89D58E007E3820 /* Main.storyboard */; };
 		7B7B0B951D89D58E007E3820 /* FLLSCRN.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7B7B0B931D89D58E007E3820 /* FLLSCRN.xcdatamodeld */; };
@@ -20,11 +24,22 @@
 		7B7B0BAD1D89E5C0007E3820 /* Deal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7B0BAC1D89E5C0007E3820 /* Deal.swift */; };
 		7B7B0BAF1D89EC33007E3820 /* VideoAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7B0BAE1D89EC33007E3820 /* VideoAsset.swift */; };
 		7B7B0BB11D8A051A007E3820 /* GestureCameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7B0BB01D8A051A007E3820 /* GestureCameraViewController.swift */; };
+		7B8823271DA1D1B800A3A9DF /* FSPhotoPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B8823261DA1D1B800A3A9DF /* FSPhotoPickerViewController.swift */; };
+		7B8823291DA1D28F00A3A9DF /* PhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B8823281DA1D28F00A3A9DF /* PhotoCollectionViewCell.swift */; };
+		7BB683141D9C1503005C1431 /* BezierGestureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB683131D9C1503005C1431 /* BezierGestureView.swift */; };
+		7BB9352C1DA2EE2E000D5FCF /* AKPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB9352B1DA2EE2E000D5FCF /* AKPickerView.swift */; };
 		7BBDC1931D98EED200DA48F3 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BBDC1921D98EED100DA48F3 /* Extensions.swift */; };
 		7BFB2B971D9A2A890086A685 /* FSPhotoAlbum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BFB2B961D9A2A890086A685 /* FSPhotoAlbum.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7B2D8B7A1DA1DB0F0030C686 /* FLLSCRN-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FLLSCRN-Bridging-Header.h"; sourceTree = "<group>"; };
+		7B2D8B7B1DA1DB100030C686 /* FLSCNImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLSCNImageViewController.h; sourceTree = "<group>"; };
+		7B2D8B7C1DA1DB100030C686 /* FLSCNImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLSCNImageViewController.m; sourceTree = "<group>"; };
+		7B2D8B7D1DA1DB100030C686 /* FLSCNImagePanScrollbarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLSCNImagePanScrollbarView.h; sourceTree = "<group>"; };
+		7B2D8B7E1DA1DB100030C686 /* FLSCNImagePanScrollbarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLSCNImagePanScrollbarView.m; sourceTree = "<group>"; };
+		7B2D8B811DA1DBE40030C686 /* Interactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Interactor.swift; sourceTree = "<group>"; };
+		7B2D8B821DA1DBE40030C686 /* DismissAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DismissAnimator.swift; sourceTree = "<group>"; };
 		7B7B0B891D89D58E007E3820 /* FLLSCRN.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FLLSCRN.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B7B0B8C1D89D58E007E3820 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7B7B0B911D89D58E007E3820 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -39,6 +54,10 @@
 		7B7B0BAC1D89E5C0007E3820 /* Deal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Deal.swift; sourceTree = "<group>"; };
 		7B7B0BAE1D89EC33007E3820 /* VideoAsset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoAsset.swift; sourceTree = "<group>"; };
 		7B7B0BB01D8A051A007E3820 /* GestureCameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GestureCameraViewController.swift; sourceTree = "<group>"; };
+		7B8823261DA1D1B800A3A9DF /* FSPhotoPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSPhotoPickerViewController.swift; sourceTree = "<group>"; };
+		7B8823281DA1D28F00A3A9DF /* PhotoCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewCell.swift; sourceTree = "<group>"; };
+		7BB683131D9C1503005C1431 /* BezierGestureView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BezierGestureView.swift; sourceTree = "<group>"; };
+		7BB9352B1DA2EE2E000D5FCF /* AKPickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AKPickerView.swift; sourceTree = "<group>"; };
 		7BBDC1921D98EED100DA48F3 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		7BFB2B961D9A2A890086A685 /* FSPhotoAlbum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FSPhotoAlbum.swift; path = ../FSPhotoAlbum.swift; sourceTree = "<group>"; };
 		8793B7EB6C4761DD5E70E997 /* Pods-FLLSCRN.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FLLSCRN.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FLLSCRN/Pods-FLLSCRN.debug.xcconfig"; sourceTree = "<group>"; };
@@ -79,16 +98,15 @@
 		7B7B0B8B1D89D58E007E3820 /* FLLSCRN */ = {
 			isa = PBXGroup;
 			children = (
+				7BB9352B1DA2EE2E000D5FCF /* AKPickerView.swift */,
+				7B8823251DA1D14C00A3A9DF /* Photos */,
+				7B8823241DA1D12200A3A9DF /* Camera */,
 				7B7B0B8C1D89D58E007E3820 /* AppDelegate.swift */,
 				7B7B0BA41D89E230007E3820 /* MainPageViewController.swift */,
-				7B7B0BA61D89E3E8007E3820 /* CameraViewController.swift */,
-				7B7B0BB01D8A051A007E3820 /* GestureCameraViewController.swift */,
 				7BFB2B961D9A2A890086A685 /* FSPhotoAlbum.swift */,
 				7BBDC1921D98EED100DA48F3 /* Extensions.swift */,
 				7B7B0BAA1D89E5A4007E3820 /* Constants.swift */,
-				7B7B0BA81D89E4BD007E3820 /* CameraFocusSquare.swift */,
-				7B7B0BAC1D89E5C0007E3820 /* Deal.swift */,
-				7B7B0BAE1D89EC33007E3820 /* VideoAsset.swift */,
+				7B8823231DA1D11500A3A9DF /* Unused */,
 				7B7B0B901D89D58E007E3820 /* Main.storyboard */,
 				7B7B0B961D89D58E007E3820 /* Assets.xcassets */,
 				7B7B0B981D89D58E007E3820 /* LaunchScreen.storyboard */,
@@ -96,6 +114,42 @@
 				7B7B0B931D89D58E007E3820 /* FLLSCRN.xcdatamodeld */,
 			);
 			path = FLLSCRN;
+			sourceTree = "<group>";
+		};
+		7B8823231DA1D11500A3A9DF /* Unused */ = {
+			isa = PBXGroup;
+			children = (
+				7B7B0BA61D89E3E8007E3820 /* CameraViewController.swift */,
+				7B7B0BAC1D89E5C0007E3820 /* Deal.swift */,
+				7B7B0BAE1D89EC33007E3820 /* VideoAsset.swift */,
+			);
+			name = Unused;
+			sourceTree = "<group>";
+		};
+		7B8823241DA1D12200A3A9DF /* Camera */ = {
+			isa = PBXGroup;
+			children = (
+				7B7B0BB01D8A051A007E3820 /* GestureCameraViewController.swift */,
+				7BB683131D9C1503005C1431 /* BezierGestureView.swift */,
+				7B7B0BA81D89E4BD007E3820 /* CameraFocusSquare.swift */,
+			);
+			name = Camera;
+			sourceTree = "<group>";
+		};
+		7B8823251DA1D14C00A3A9DF /* Photos */ = {
+			isa = PBXGroup;
+			children = (
+				7B8823261DA1D1B800A3A9DF /* FSPhotoPickerViewController.swift */,
+				7B8823281DA1D28F00A3A9DF /* PhotoCollectionViewCell.swift */,
+				7B2D8B7B1DA1DB100030C686 /* FLSCNImageViewController.h */,
+				7B2D8B7C1DA1DB100030C686 /* FLSCNImageViewController.m */,
+				7B2D8B7D1DA1DB100030C686 /* FLSCNImagePanScrollbarView.h */,
+				7B2D8B7E1DA1DB100030C686 /* FLSCNImagePanScrollbarView.m */,
+				7B2D8B7A1DA1DB0F0030C686 /* FLLSCRN-Bridging-Header.h */,
+				7B2D8B811DA1DBE40030C686 /* Interactor.swift */,
+				7B2D8B821DA1DBE40030C686 /* DismissAnimator.swift */,
+			);
+			name = Photos;
 			sourceTree = "<group>";
 		};
 		7FF726B7332D943524F47A36 /* Pods */ = {
@@ -239,16 +293,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7BB9352C1DA2EE2E000D5FCF /* AKPickerView.swift in Sources */,
+				7B8823271DA1D1B800A3A9DF /* FSPhotoPickerViewController.swift in Sources */,
 				7B7B0B951D89D58E007E3820 /* FLLSCRN.xcdatamodeld in Sources */,
+				7BB683141D9C1503005C1431 /* BezierGestureView.swift in Sources */,
 				7B7B0BA91D89E4BD007E3820 /* CameraFocusSquare.swift in Sources */,
 				7B7B0BAF1D89EC33007E3820 /* VideoAsset.swift in Sources */,
 				7B7B0BA51D89E230007E3820 /* MainPageViewController.swift in Sources */,
 				7BFB2B971D9A2A890086A685 /* FSPhotoAlbum.swift in Sources */,
+				7B2D8B841DA1DBE40030C686 /* DismissAnimator.swift in Sources */,
 				7B7B0BA71D89E3E8007E3820 /* CameraViewController.swift in Sources */,
 				7BBDC1931D98EED200DA48F3 /* Extensions.swift in Sources */,
 				7B7B0B8D1D89D58E007E3820 /* AppDelegate.swift in Sources */,
+				7B2D8B7F1DA1DB100030C686 /* FLSCNImageViewController.m in Sources */,
 				7B7B0BAB1D89E5A4007E3820 /* Constants.swift in Sources */,
+				7B2D8B831DA1DBE40030C686 /* Interactor.swift in Sources */,
+				7B8823291DA1D28F00A3A9DF /* PhotoCollectionViewCell.swift in Sources */,
 				7B7B0BB11D8A051A007E3820 /* GestureCameraViewController.swift in Sources */,
+				7B2D8B801DA1DB100030C686 /* FLSCNImagePanScrollbarView.m in Sources */,
 				7B7B0BAD1D89E5C0007E3820 /* Deal.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -369,12 +431,19 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = LTXTUTVH78;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = FLLSCRN/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = self.edu.Salmaan.FLLSCRN;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "FLLSCRN/FLLSCRN-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -385,12 +454,18 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = LTXTUTVH78;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = FLLSCRN/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = self.edu.Salmaan.FLLSCRN;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "FLLSCRN/FLLSCRN-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;

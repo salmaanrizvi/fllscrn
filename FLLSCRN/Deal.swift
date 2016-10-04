@@ -100,7 +100,7 @@ class Deal: UIView {
             kCircleIconHeight : 25
         ) */
         
-        let whiteGift = UIImage.fontAwesomeIconWithName(.Gift, textColor: UIColor.white, size: CGSize(width: 375, height: 375), backgroundColor: UIColor.fllscrnRed())
+        let whiteGift = UIImage.fontAwesomeIconWithName(.Gift, textColor: UIColor.white, size: CGSize(width: 375, height: 375), backgroundColor: UIColor.fllscrnGreen())
         
         
         
@@ -125,7 +125,7 @@ class Deal: UIView {
             
             })
             
-            dealAlert.showCustom("Deal Special!", subTitle: "\n\(deal.name)\n\nRemaining: \(deal.numberRemaining)\n", color: UIColor.fllscrnRed(), icon: whiteGift, closeButtonTitle: "Default Cancel", duration: 0.0, colorStyle: UIColor.fllscrnRed().colorCode(), colorTextButton: UIColor.white.colorCode(), circleIconImage: whiteGift, animationStyle: .topToBottom)
+            dealAlert.showCustom("Deal Special!", subTitle: "\n\(deal.name)\n\nRemaining: \(deal.numberRemaining)\n", color: UIColor.fllscrnGreen(), icon: whiteGift, closeButtonTitle: "Default Cancel", duration: 0.0, colorStyle: UIColor.fllscrnGreen().colorCode(), colorTextButton: UIColor.white.colorCode(), circleIconImage: whiteGift, animationStyle: .topToBottom)
         
         }
         else { // business wants to update
@@ -154,7 +154,7 @@ class Deal: UIView {
                 }
             })
             
-            dealAlert.showCustom("Add a Deal!\n", subTitle: "\nIndicate the deal and the number that can be redeemed below.\n", color: UIColor.fllscrnRed(), icon: whiteGift, closeButtonTitle: "Cancel", duration: 0.0, colorStyle: UIColor.fllscrnRed().colorCode(), colorTextButton: UIColor.white.colorCode(), circleIconImage: whiteGift, animationStyle: .topToBottom)
+            dealAlert.showCustom("Add a Deal!\n", subTitle: "\nIndicate the deal and the number that can be redeemed below.\n", color: UIColor.fllscrnGreen(), icon: whiteGift, closeButtonTitle: "Cancel", duration: 0.0, colorStyle: UIColor.fllscrnGreen().colorCode(), colorTextButton: UIColor.white.colorCode(), circleIconImage: whiteGift, animationStyle: .topToBottom)
         }
     }
     

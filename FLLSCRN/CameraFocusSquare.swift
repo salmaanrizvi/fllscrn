@@ -20,7 +20,7 @@ class CameraFocusSquare: UIView, CAAnimationDelegate {
         self.updatePoint(touchPoint)
         self.backgroundColor = UIColor.clear
         self.layer.borderWidth = 1.5
-        self.layer.borderColor = UIColor.fllscrnRed().cgColor
+        self.layer.borderColor = UIColor.fllscrnGreen().cgColor
         initBlink()
     }
     

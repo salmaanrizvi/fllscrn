@@ -22,17 +22,27 @@ extension UIView {
         return center
     }
     
-    var right : CGPoint { return CGPoint(x: self.center.x + self.bounds.width / 2, y: self.center.y)}
+    var right : CGPoint { return CGPoint(x: self.center.x + self.bounds.width / 2, y: self.center.y) }
+    var left  : CGPoint { return CGPoint(x: self.center.x - self.bounds.width / 2, y: self.center.y) }
 }
 
 extension UIColor {
     
-    class func fllscrnRed() -> UIColor {
-        return UIColor.fllscrnRed(alpha: 1.0)
+    class func fllscrnGreen() -> UIColor {
+        return UIColor.fllscrnGreen(alpha: 1.0)
     }
     
-    class func fllscrnRed(alpha: CGFloat) -> UIColor {
-        return UIColor(red: 231.0/255.0, green: 76.0/255.0, blue: 60.0/255.0, alpha: alpha)
+    class func fllscrnGreen(alpha: CGFloat) -> UIColor {
+        return UIColor(red: 46.0/255.0, green: 204.0/255.0, blue: 113.0/255.0, alpha: alpha)
+        // red: UIColor(red: 231.0/255.0, green: 76.0/255.0, blue: 60.0/255.0, alpha: alpha)
+    }
+    
+    class func fllscrnPurple() -> UIColor {
+        return UIColor.fllscrnPurple(alpha: 1.0)
+    }
+    
+    class func fllscrnPurple(alpha: CGFloat) -> UIColor {
+        return UIColor(red: 154.0/255.0, green: 18.0/255.0, blue: 79.0/255.0, alpha: alpha)
     }
     
     func colorCode() -> UInt {
@@ -55,6 +65,10 @@ extension UIFont {
     
     class func fllscrnFont(_ size : CGFloat) -> UIFont {
         return UIFont(name: "Avenir", size: size)!
+    }
+    
+    class func fllscrnFontBold(_ size: CGFloat) -> UIFont {
+        return UIFont(name: "Avenir-Black", size: size)!
     }
 }
 
