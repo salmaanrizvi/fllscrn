@@ -71,8 +71,12 @@ let whiteGift = UIImage.fontAwesomeIconWithName(.Gift, textColor: UIColor.white,
 let whiteCamera = UIImage.fontAwesomeIconWithName(.CameraRetro, textColor: .white, size: faIconSize, backgroundColor: .clear)
 let purpleCamera = UIImage.fontAwesomeIconWithName(.CameraRetro, textColor: .fllscrnPurple(), size: faIconSize, backgroundColor: .clear)
 
+// USED
+
 let whiteVideoCamera = UIImage.fontAwesomeIconWithName(.VideoCamera, textColor: .white, size: faIconSize, backgroundColor: .clear)
 let greenVideoCamera = UIImage.fontAwesomeIconWithName(.VideoCamera, textColor: .fllscrnGreen(), size: faIconSize, backgroundColor: .clear)
+
+let sliderImg = UIImage(named: "slider")!   
 
 let formats : [NSNumber : String] =
     [ NSNumber(value: kCVPixelFormatType_1Monochrome.hashValue) : "kCVPixelFormatType_1Monochrome",
@@ -114,7 +118,11 @@ let formats : [NSNumber : String] =
       NSNumber(value: kCVPixelFormatType_422YpCbCr8FullRange.hashValue) : "kCVPixelFormatType_422YpCbCr8FullRange",
 ]
 
-let labelWidthMultiple : CGFloat = 0.25
+let labelWidthMultiple : CGFloat = 0.15
+let pickerWidthMultiple : CGFloat = 0.65
 let widthMultiple : CGFloat = 1.0
 let layoutPadding : CGFloat = 5.0
 let cellsPerRow   : CGFloat = 3.0
+
+
+let hasLaunchedOnce : String = "hasLaunchedOnce"

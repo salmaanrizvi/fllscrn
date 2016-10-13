@@ -26,6 +26,7 @@
 		7B7B0BB11D8A051A007E3820 /* GestureCameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B7B0BB01D8A051A007E3820 /* GestureCameraViewController.swift */; };
 		7B8823271DA1D1B800A3A9DF /* FSPhotoPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B8823261DA1D1B800A3A9DF /* FSPhotoPickerViewController.swift */; };
 		7B8823291DA1D28F00A3A9DF /* PhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B8823281DA1D28F00A3A9DF /* PhotoCollectionViewCell.swift */; };
+		7B92DCF51DAFEAEC0036266D /* CurvedSliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B92DCF41DAFEAEC0036266D /* CurvedSliderView.swift */; };
 		7BB683141D9C1503005C1431 /* BezierGestureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB683131D9C1503005C1431 /* BezierGestureView.swift */; };
 		7BB9352C1DA2EE2E000D5FCF /* AKPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB9352B1DA2EE2E000D5FCF /* AKPickerView.swift */; };
 		7BBDC1931D98EED200DA48F3 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BBDC1921D98EED100DA48F3 /* Extensions.swift */; };
@@ -56,6 +57,7 @@
 		7B7B0BB01D8A051A007E3820 /* GestureCameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GestureCameraViewController.swift; sourceTree = "<group>"; };
 		7B8823261DA1D1B800A3A9DF /* FSPhotoPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FSPhotoPickerViewController.swift; sourceTree = "<group>"; };
 		7B8823281DA1D28F00A3A9DF /* PhotoCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewCell.swift; sourceTree = "<group>"; };
+		7B92DCF41DAFEAEC0036266D /* CurvedSliderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurvedSliderView.swift; sourceTree = "<group>"; };
 		7BB683131D9C1503005C1431 /* BezierGestureView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BezierGestureView.swift; sourceTree = "<group>"; };
 		7BB9352B1DA2EE2E000D5FCF /* AKPickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AKPickerView.swift; sourceTree = "<group>"; };
 		7BBDC1921D98EED100DA48F3 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -129,6 +131,7 @@
 		7B8823241DA1D12200A3A9DF /* Camera */ = {
 			isa = PBXGroup;
 			children = (
+				7B92DCF41DAFEAEC0036266D /* CurvedSliderView.swift */,
 				7B7B0BB01D8A051A007E3820 /* GestureCameraViewController.swift */,
 				7BB683131D9C1503005C1431 /* BezierGestureView.swift */,
 				7B7B0BA81D89E4BD007E3820 /* CameraFocusSquare.swift */,
@@ -301,6 +304,7 @@
 				7B7B0BAF1D89EC33007E3820 /* VideoAsset.swift in Sources */,
 				7B7B0BA51D89E230007E3820 /* MainPageViewController.swift in Sources */,
 				7BFB2B971D9A2A890086A685 /* FSPhotoAlbum.swift in Sources */,
+				7B92DCF51DAFEAEC0036266D /* CurvedSliderView.swift in Sources */,
 				7B2D8B841DA1DBE40030C686 /* DismissAnimator.swift in Sources */,
 				7B7B0BA71D89E3E8007E3820 /* CameraViewController.swift in Sources */,
 				7BBDC1931D98EED200DA48F3 /* Extensions.swift in Sources */,

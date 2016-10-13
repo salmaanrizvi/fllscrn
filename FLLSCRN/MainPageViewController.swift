@@ -22,7 +22,7 @@ class MainPageViewController: UIPageViewController {
         return [gestureCamera, photoViewerNavController]
     }()
     
-    lazy var currentIndex : FLLSCRNViewControllers = .photos
+    lazy var currentIndex : FLLSCRNViewControllers = .camera
     
     override func viewDidLoad() {
         super.viewDidLoad()

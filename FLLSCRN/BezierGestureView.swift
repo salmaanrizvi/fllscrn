@@ -43,6 +43,14 @@ class BezierGestureView: UIView {
     lazy var r1RightControlView = UIView()
     lazy var r2RightControlView = UIView()
     lazy var r3RightControlView = UIView()
+
+    lazy var l3BottomControlView = UIView()
+    lazy var l2BottomControlView = UIView()
+    lazy var l1BottomControlView = UIView()
+    lazy var cBottomControlView = UIView()
+    lazy var c1BottomControlView = UIView()
+    lazy var c2BottomControlView = UIView()
+    lazy var c3BottomControlView = UIView()
     
     lazy var leftEdgeGesture : UIScreenEdgePanGestureRecognizer = UIScreenEdgePanGestureRecognizer()
     lazy var rightEdgeGesture : UIScreenEdgePanGestureRecognizer = UIScreenEdgePanGestureRecognizer()

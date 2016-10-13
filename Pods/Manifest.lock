@@ -2,12 +2,14 @@ PODS:
   - FontAwesome.swift (0.11.1)
   - IQKeyboardManagerSwift (4.0.4)
   - KCFloatingActionButton (2.0.0)
-  - SCLAlertView (0.6.0)
+  - MTCircularSlider (0.2.9)
+  - SCLAlertView (0.7.0)
 
 DEPENDENCIES:
   - FontAwesome.swift (from `https://github.com/thii/FontAwesome.swift.git`, branch `master`)
   - IQKeyboardManagerSwift (from `https://github.com/hackiftekhar/IQKeyboardManager.git`, branch `swift3`)
   - KCFloatingActionButton (from `https://github.com/kciter/KCFloatingActionButton.git`, branch `swift3.0`)
+  - MTCircularSlider
   - SCLAlertView (from `https://github.com/vikmeup/SCLAlertView-Swift`)
 
 EXTERNAL SOURCES:
@@ -25,7 +27,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   FontAwesome.swift:
-    :commit: fd641b95728e566e5b4f2d37ed94486162ea5a65
+    :commit: b03d71746f277690d1ff7df0c539641c4ba57d4d
     :git: https://github.com/thii/FontAwesome.swift.git
   IQKeyboardManagerSwift:
     :commit: d27180d877c8d36d5be80ee9d8c24d184ac26081
@@ -34,15 +36,16 @@ CHECKOUT OPTIONS:
     :commit: 32c645548daa55470ca12425bc9d975e69f18a4f
     :git: https://github.com/kciter/KCFloatingActionButton.git
   SCLAlertView:
-    :commit: 2c00bfd1199b984476724c79914d553063ae0b46
+    :commit: 2b174086def5e2d13f10f6133cab4ac603fe3d1a
     :git: https://github.com/vikmeup/SCLAlertView-Swift
 
 SPEC CHECKSUMS:
   FontAwesome.swift: 9879cd6a1462bf160662d519f7b7474d73bdd1c3
   IQKeyboardManagerSwift: e0964d04d6a29b71016fd346dca13ecb80a2823a
   KCFloatingActionButton: 3eab4ed6b2ef2e37d5dea82e621fe01d2277a943
-  SCLAlertView: 0f6b3c23a48b4993564ff1dd3c065782e4b2b687
+  MTCircularSlider: 243a17c920fb79b9fa9bee8c0dc1b8d82ae6ecf2
+  SCLAlertView: 8a14ffc40590c619e183eed2298b854385f30be1
 
-PODFILE CHECKSUM: e0dc9358056b5eea29d793273788d2de19a716b6
+PODFILE CHECKSUM: ae28059df2de5feb9715c0ad212c9957672978d5
 
 COCOAPODS: 1.0.1

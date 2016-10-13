@@ -24,6 +24,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>MTCircularSlider.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-FLLSCRN.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -37,6 +42,11 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>0400226E2A3AFE3621C67CCECEBF31E9</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>1520003FEBEC114D6C84F832AFEDB994</key>
 		<dict>
 			<key>primary</key>
@@ -52,17 +62,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>A861AF67FA5E49BDD762C77235A1470F</key>
+		<key>71D01DAA37A714AECF039F352B590C66</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>C53DA504FAEDD6EFF006ECE5B19A816F</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>EF4F067C2D0E135B80299B089E168BDA</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>FB0CDA3712FFDA5812D4D82390A286B1</key>
 		<dict>
 			<key>primary</key>
 			<true/>

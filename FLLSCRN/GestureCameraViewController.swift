@@ -48,10 +48,12 @@ class GestureCameraViewController: UIViewController {
     
     lazy var previewLayer: AVCaptureVideoPreviewLayer = {
         let preview =  AVCaptureVideoPreviewLayer(session: self.captureSession)
-        let topLayoutGuide = UIApplication.shared.statusBarFrame.height
+//        let topLayoutGuide = UIApplication.shared.statusBarFrame.height
         preview?.bounds = CGRect(x: 0, y: 0, width: self.width, height: self.width)//self.height - topLayoutGuide * 2)
-        preview?.position = CGPoint(x: self.view.bounds.midX, y: self.view.bounds.midY - kCBottomBarHeight / 2)
+        preview?.position = CGPoint(x: self.view.bounds.midX, y: self.width / 2 + self.statusBarHeight)
         preview?.videoGravity = AVLayerVideoGravityResizeAspectFill //AVLayerVideoGravityResize
+        print("Bounds: \(preview!.bounds)")
+        print("Position: \(preview?.position)")
         return preview!
     }()
     
@@ -61,6 +63,7 @@ class GestureCameraViewController: UIViewController {
     
     var height             : CGFloat { return self.view.bounds.height - kCBottomBarHeight }
     var width              : CGFloat { return self.view.bounds.width }
+    lazy var statusBarHeight : CGFloat = UIApplication.shared.statusBarFrame.height
     var currentZoom        : CGFloat { return self.captureDevice.videoZoomFactor }
     lazy var maxZoom       : CGFloat = self.captureDevice.activeFormat.videoMaxZoomFactor
     var zoomText           : String  { return NSString(format: "%0.1f", self.currentZoom) as String }
@@ -96,7 +99,7 @@ class GestureCameraViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
         self.loadVideoCamera()
         self.addAudioInputs()
@@ -125,7 +128,14 @@ class GestureCameraViewController: UIViewController {
         
         self.fsPhotoAlbum.getImages(count: 1, size: kCThumbnailSize, videos: true) { (imageArray) in
             
-            let croppedImage = self.fsPhotoAlbum.cropToBounds(image: imageArray.first!!, width: kCBottomBarHeight, height: kCBottomBarHeight)
+            let images = imageArray.flatMap({ $0 })
+            
+            guard let firstImage = images.first else {
+                print("No pictures to load.")
+                return
+            }
+            
+            let croppedImage = self.fsPhotoAlbum.cropToBounds(image: firstImage, width: kCBottomBarHeight, height: kCBottomBarHeight)
             
             DispatchQueue.main.async {
                 self.fsAlbumImageView.image = croppedImage
@@ -136,6 +146,14 @@ class GestureCameraViewController: UIViewController {
 
     override func viewWillDisappear(_ animated: Bool) {
         print("Not unlocking yet.")
+        
+        if !UserDefaults.standard.bool(forKey: hasLaunchedOnce) {
+            UserDefaults.standard.set(true, forKey: hasLaunchedOnce)
+            let saved = UserDefaults.standard.synchronize()
+            if saved {
+                print("First launch saved.")
+            }
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -298,8 +316,8 @@ class GestureCameraViewController: UIViewController {
         print("Min Shutter Speed: \(self.minShutterSpeed)")
         print("Max Shutter Speed: \(self.maxShutterSpeed)")
         
-        self.updateISORange()
-        self.updateShutterRange()
+        self.updateAvailableISOs()
+        self.updateAvailableShutterSpeeds()
         
         self.isoPicker.selectItem(0, animated: true)
         self.shutterPicker.selectItem(0, animated: true)
@@ -362,17 +380,18 @@ extension GestureCameraViewController : AVCaptureFileOutputRecordingDelegate, AV
                 return
             }
             
+            let square = self.fsPhotoAlbum.cropToBounds(image: resultUIImage, size: kCThumbnailSize)
+
             self.hasCapturedOne = true
             
-            self.fsPhotoAlbum.saveImage(image: resultUIImage, metadata: nil, completion: { (isComplete, error) in
+            self.fsPhotoAlbum.saveImage(image: square, metadata: nil, completion: { (isComplete, error) in
                 
                 if let error = error { print(error.localizedDescription) }
                 else if isComplete {
                     
                     print("Saved photo.")
                     self.hasCapturedOne = false
-                    let thumbnail = self.fsPhotoAlbum.cropToBounds(image: resultUIImage, size: kCThumbnailSize)
-                    self.animate(thumbnail: thumbnail)
+                    self.animate(thumbnail: square)
                 }
             })
         }
@@ -386,10 +405,12 @@ extension GestureCameraViewController : AVCaptureFileOutputRecordingDelegate, AV
             let baseAddress = CVPixelBufferGetBaseAddress(imageBuffer)
             let bytesPerRow = CVPixelBufferGetBytesPerRow(imageBuffer)
             let width = CVPixelBufferGetWidth(imageBuffer)
-//            let height = CVPixelBufferGetHeight(imageBuffer)
+            let height = CVPixelBufferGetHeight(imageBuffer)
             let colorSpace = CGColorSpaceCreateDeviceRGB()
             
-            guard let context = CGContext(data: baseAddress, width: width, height: width, bitsPerComponent: 8,bytesPerRow: bytesPerRow, space: colorSpace, bitmapInfo: CGBitmapInfo.byteOrder32Little.rawValue | CGImageAlphaInfo.premultipliedFirst.rawValue) else {
+            print("Image Buffer Width: \(width) & Height: \(height)")
+            
+            guard let context = CGContext(data: baseAddress, width: width, height: height, bitsPerComponent: 8,bytesPerRow: bytesPerRow, space: colorSpace, bitmapInfo: CGBitmapInfo.byteOrder32Little.rawValue | CGImageAlphaInfo.premultipliedFirst.rawValue) else {
                 print("Couldn't create context for image.")
                 return nil
             }
@@ -685,7 +706,7 @@ extension GestureCameraViewController : BezierGestureViewDelegate {
 
 extension GestureCameraViewController : AKPickerViewDelegate, AKPickerViewDataSource {
     
-    func updateISORange() {
+    func updateAvailableISOs() {
         
         let roundedMinISO = 50.0 * ceil((self.minISO / 50.0))
         let roundedMaxISO = 50.0 * floor((self.maxISO / 50.0))
@@ -700,11 +721,10 @@ extension GestureCameraViewController : AKPickerViewDelegate, AKPickerViewDataSo
         self.isoRange = isoArray
     }
     
-    func updateShutterRange() {
+    func updateAvailableShutterSpeeds() {
 
-        let minTimeScale : CMTimeScale = CMTimeScale(1.0/self.minShutterSpeed.seconds)
+        let minTimeScale : CMTimeScale = CMTimeScale(ceil(1.0/self.minShutterSpeed.seconds))
         print("Min time scale: \(minTimeScale)")
-//        let minShutterSpeed = self.minShutterSpeed.convertScale(minTimeScale, method: .quickTime)
         
         var shutterArray : [CMTime] = []
         let one : CMTimeValue = 1
@@ -713,6 +733,13 @@ extension GestureCameraViewController : AKPickerViewDelegate, AKPickerViewDataSo
         
         while timeScale >= self.maxShutterSpeed.timescale {
             
+            if timeScale % 2 != 0 {
+                timeScale = Int32(5.0 * ceil((Double(timeScale) / 5.0)))
+            }
+//            else if timeScale <= 10 {
+//                timeScale = Int32(2.0 * ceil(Double(timeScale) / 2.0))
+//            }
+//            
             let shutterSpeed = CMTime(value: one, timescale: timeScale)
             shutterArray.append(shutterSpeed)
             timeScale /= 2
@@ -732,7 +759,7 @@ extension GestureCameraViewController : AKPickerViewDelegate, AKPickerViewDataSo
         self.isoLabel.bottomAnchor.constraint(equalTo: self.fsAlbumImageView.topAnchor).isActive = true
         
         self.isoLabel.text = "ISO"
-        self.isoLabel.font = UIFont.fllscrnFontBold(14.0)
+        self.isoLabel.font = UIFont.fllscrnFontBold(16.0)
         self.isoLabel.textAlignment = .center
         self.isoLabel.textColor = self.photoVideoSwitch.isOn
                            ? .fllscrnPurple() : .fllscrnGreen()
@@ -742,7 +769,7 @@ extension GestureCameraViewController : AKPickerViewDelegate, AKPickerViewDataSo
         
         self.isoPicker.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         self.isoPicker.heightAnchor.constraint(equalTo: self.isoLabel.heightAnchor).isActive = true
-        self.isoPicker.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.75).isActive = true
+        self.isoPicker.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: pickerWidthMultiple).isActive = true
         self.isoPicker.bottomAnchor.constraint(equalTo: self.isoLabel.bottomAnchor).isActive = true
         
         self.isoPicker.delegate = self
@@ -755,6 +782,8 @@ extension GestureCameraViewController : AKPickerViewDelegate, AKPickerViewDataSo
         self.isoPicker.interitemSpacing = 15.0
         self.isoPicker.maskDisabled = false
         self.isoPicker.reloadData()
+        
+        self.isoPicker.isHidden = true
     }
     
     func setupShutterSpeedPicker() {
@@ -768,7 +797,7 @@ extension GestureCameraViewController : AKPickerViewDelegate, AKPickerViewDataSo
         self.shutterLabel.bottomAnchor.constraint(equalTo: self.isoPicker.topAnchor).isActive = true
         
         self.shutterLabel.text = "Tv"
-        self.shutterLabel.font = UIFont.fllscrnFontBold(14.0)
+        self.shutterLabel.font = UIFont.fllscrnFontBold(16.0)
         self.shutterLabel.textAlignment = .center
         self.shutterLabel.textColor = self.photoVideoSwitch.isOn
                                ? .fllscrnPurple() : .fllscrnGreen()
@@ -778,7 +807,7 @@ extension GestureCameraViewController : AKPickerViewDelegate, AKPickerViewDataSo
         
         self.shutterPicker.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         self.shutterPicker.heightAnchor.constraint(equalTo: self.shutterLabel.heightAnchor).isActive = true
-        self.shutterPicker.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.75).isActive = true
+        self.shutterPicker.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: pickerWidthMultiple).isActive = true
         self.shutterPicker.bottomAnchor.constraint(equalTo: self.shutterLabel.bottomAnchor).isActive = true
         
         self.shutterPicker.delegate = self
@@ -791,6 +820,14 @@ extension GestureCameraViewController : AKPickerViewDelegate, AKPickerViewDataSo
         self.shutterPicker.interitemSpacing = 10.0
         self.shutterPicker.maskDisabled = false
         self.shutterPicker.reloadData()
+        
+        self.shutterPicker.isHidden = true
+        
+        let sliderRect = CGRect(x: 0, y: self.view.frame.midY * 1.5 - 2*statusBarHeight, width: self.width/2, height: self.width/2)
+        
+        let curvySlider = CurvedSliderView(frame: sliderRect)
+        
+        self.view.addSubview(curvySlider)
     }
     
     func numberOfItemsInPickerView(_ pickerView: AKPickerView) -> Int {
@@ -810,17 +847,12 @@ extension GestureCameraViewController : AKPickerViewDelegate, AKPickerViewDataSo
     
     func pickerView(_ pickerView: AKPickerView, didSelectItem item: Int) {
         
-        self.isoPicker.isUserInteractionEnabled = false
-        self.shutterPicker.isUserInteractionEnabled = false
-        
         let shutterSpeed : CMTime = self.shutterRange[self.shutterPicker.selectedItem]
         let iso          : Float = self.isoRange[self.isoPicker.selectedItem]
         
         self.captureDevice.setExposureModeCustomWithDuration(shutterSpeed, iso: iso, completionHandler: { (time) -> Void in
             
             print("Set shutter speed: \(Int(shutterSpeed.value)) / \(shutterSpeed.timescale)\nISO: \(iso)")
-            self.isoPicker.isUserInteractionEnabled = true
-            self.shutterPicker.isUserInteractionEnabled = true
         })
     }
 }

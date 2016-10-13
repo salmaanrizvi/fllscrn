@@ -50,9 +50,11 @@ class FSPhotoAlbum: NSObject {
     
     func createAlbum() {
         PHPhotoLibrary.shared().performChanges({
-            PHAssetCollectionChangeRequest.creationRequestForAssetCollection(withTitle: FSPhotoAlbum.albumName)   // create an asset collection with the album name
+            // create an asset collection with the album name
+            PHAssetCollectionChangeRequest.creationRequestForAssetCollection(withTitle: FSPhotoAlbum.albumName)
         }) { success, error in
             if success {
+                print("Successfully created asset collection.")
                 self.assetCollection = self.fetchAssetCollectionForAlbum()
             } else {
                 print("error \(error)")
@@ -97,6 +99,12 @@ class FSPhotoAlbum: NSObject {
     }
     
     func getImages(count: Int, size: CGSize, videos: Bool, completion: @escaping ([UIImage?])->()) {
+        
+        if PHPhotoLibrary.authorizationStatus() != .authorized {
+            PHPhotoLibrary.requestAuthorization(requestAuthorizationHandler)
+            completion([])
+            return
+        }
         
         var imageArray : [UIImage?] = []
         let imageSize = size

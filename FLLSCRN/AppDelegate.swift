@@ -14,7 +14,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
@@ -38,13 +37,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
         
-        if let pageVC = self.window?.rootViewController as? MainPageViewController {
+        if UserDefaults.standard.bool(forKey: hasLaunchedOnce) {
             
-            if let cameraVC = pageVC.viewsArray[FLLSCRNViewControllers.camera.rawValue]
-                              as? GestureCameraViewController {
-                print("Unlocking in app delegate.")
-                cameraVC.captureDevice.unlockForConfiguration()
-                cameraVC.isLocked = false
+            if let pageVC = self.window?.rootViewController as? MainPageViewController {
+                
+                if let cameraVC = pageVC.viewsArray[FLLSCRNViewControllers.camera.rawValue]
+                    as? GestureCameraViewController {
+                    print("Unlocking in app delegate.")
+                    cameraVC.captureDevice.unlockForConfiguration()
+                    cameraVC.isLocked = false
+                }
             }
         }
     }
@@ -52,12 +54,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
         
-        if let pageVC = self.window?.rootViewController as? MainPageViewController {
+        if UserDefaults.standard.bool(forKey: hasLaunchedOnce) {
             
-            if let cameraVC = pageVC.viewsArray[FLLSCRNViewControllers.camera.rawValue]
-                as? GestureCameraViewController {
-                print("Locking in app delegate.")
-                cameraVC.lockFor(device: cameraVC.photoVideoSwitch.isOn ? .photo : .video)
+            if let pageVC = self.window?.rootViewController as? MainPageViewController {
+                
+                if let cameraVC = pageVC.viewsArray[FLLSCRNViewControllers.camera.rawValue]
+                    as? GestureCameraViewController {
+                    print("Locking in app delegate.")
+                    cameraVC.lockFor(device: cameraVC.photoVideoSwitch.isOn ? .photo : .video)
+                }
             }
         }
     }
@@ -65,9 +70,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
         
-        if let pageVC = self.window?.rootViewController as? MainPageViewController {
-            let childVC = pageVC.viewsArray[pageVC.currentIndex.rawValue]
-            childVC.viewDidAppear(true)
+        if UserDefaults.standard.bool(forKey: hasLaunchedOnce) {
+            if let pageVC = self.window?.rootViewController as? MainPageViewController {
+                let childVC = pageVC.viewsArray[pageVC.currentIndex.rawValue]
+                childVC.viewDidAppear(true)
+            }
         }
     }
 
