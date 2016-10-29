@@ -14,8 +14,8 @@ target 'FLLSCRN' do
   
   pod 'SCLAlertView', :git => 'https://github.com/vikmeup/SCLAlertView-Swift'
   
-  pod "MTCircularSlider"
-  
+  pod "CircleSlider"
+
   post_install do |installer|
       installer.pods_project.targets.each do |target|
           target.build_configurations.each do |config|

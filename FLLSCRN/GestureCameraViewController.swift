@@ -9,6 +9,7 @@
 import UIKit
 import AVFoundation
 import Photos
+import CircleSlider
 
 let kCThumbnailSize     : CGSize        = CGSize(width: kCBottomBarHeight - kCDefaultPadding,
                                                  height: kCBottomBarHeight - kCDefaultPadding)
@@ -825,9 +826,25 @@ extension GestureCameraViewController : AKPickerViewDelegate, AKPickerViewDataSo
         
         let sliderRect = CGRect(x: 0, y: self.view.frame.midY * 1.5 - 2*statusBarHeight, width: self.width/2, height: self.width/2)
         
-        let curvySlider = CurvedSliderView(frame: sliderRect)
+        let options : [CircleSliderOption] = [
+            CircleSliderOption.barColor(.lightGray),
+            CircleSliderOption.thumbColor(.darkGray),
+            CircleSliderOption.trackingColor(.fllscrnGreen()),
+            CircleSliderOption.thumbImage(sliderImg),
+            CircleSliderOption.thumbWidth(10),
+            CircleSliderOption.barWidth(10),
+            CircleSliderOption.startAngle(0),
+            CircleSliderOption.maxValue(150),
+            CircleSliderOption.minValue(0)
+        ]
         
-        self.view.addSubview(curvySlider)
+        let circleSlider = CircleSlider(frame: sliderRect, options: options)
+        circleSlider.addTarget(self, action: #selector(valueChanged), for: .valueChanged)
+        self.view.addSubview(circleSlider)
+    }
+    
+    func valueChanged(sender : CircleSlider) {
+        print("Value: \(sender.value)")
     }
     
     func numberOfItemsInPickerView(_ pickerView: AKPickerView) -> Int {
